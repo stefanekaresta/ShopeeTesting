@@ -1,0 +1,198 @@
+<div id="page_content">
+    <div id="top_bar">
+        <div ncy-breadcrumb></div>
+    </div>
+    <br/>
+    <br/>
+    <div id="page_content_inner">
+        <h3 class="heading_b uk-margin-bottom">Dispatch Setting</h3>
+
+        <div ng-show="show.main" class="uk-grid" data-uk-grid-margin data-uk-grid-match="{target:'.md-card-content'}">
+
+            <div class="uk-width-medium-1-1">
+                <div class="md-card">
+                    <div class="md-card-content">
+                        <div class="uk-overflow-container">
+                            <table class="uk-table uk-table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="uk-width-2-10 uk-text-center">File ID</th>
+                                    <th class="uk-width-1-10 uk-text-center">IP</th>
+                                    <th class="uk-width-1-10 uk-text-center">Pattern</th>
+                                    <th class="uk-width-1-10 uk-text-center">Filter ID</th>
+                                    <th class="uk-width-2-10 uk-text-center">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in dataListInputAll">
+                                    <td class="uk-text-center">{{item.fileId}}</td>
+                                    <td class="uk-text-center">{{item.ip}}</td>
+                                    <td class="uk-text-center">{{item.patternToSend}}</td>
+
+                                    <!--<td class="uk-text-center">{{item.filterId}}</td>-->
+                                    <td class="uk-text-center" ng-if="item.filterId == '001'">TSEL</td>
+                                    <td class="uk-text-center" ng-if="item.filterId == '002'">DWH</td>
+                                    <td class="uk-text-center" ng-if="item.filterId == '003'"></td>
+                                    <td class="uk-text-center" ng-if="item.filterId == '004'">IPASS</td>
+                                    <td class="uk-text-center" ng-if="item.filterId == '005'">IPASV</td>
+                                    <td class="uk-text-center" ng-if="item.filterId == '006'">RADNET</td>
+                                    <td class="uk-text-center" ng-if="item.filterId == '007'">SAMSUNG</td>
+                                    <td class="uk-text-center" ng-if="item.filterId == '008'">BOINGO</td>
+                                    <td class="uk-text-center" ng-if="item.filterId == '009'">NUSANET</td>
+                                    <td class="uk-text-center" ng-if="item.filterId == '010'">ISP</td>
+
+                                    <td class="uk-text-center">
+                                        <a><i class="md-icon material-icons" ng-click="showDetail(item)">&#xE88F;</i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="show.detail" class="uk-grid uk-grid-medium" data-uk-grid-margin>
+            <div class="uk-width-xLarge  uk-width-large">
+                <div class="md-card">
+                    <div class="md-card-content">
+                        <a href=""><i class="md-icon material-icons uk-text-primary" ng-click="back()">keyboard_arrow_left</i></a>
+                    </div>
+                    <div class="md-card-toolbar">
+                        <h3 class="md-card-toolbar-heading-text">
+                            Details
+                        </h3>
+                    </div>
+                    <div class="md-card-content large-padding">
+                        <div class="uk-grid uk-grid-divider uk-grid-medium">
+                            <div class="uk-width-large-1-2">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">File ID</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        <span class="uk-text-large uk-text-middle">{{selectedData.fileId}}</span>
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">Delimiter</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        <span class="uk-text-large uk-text-middle">{{selectedData.fileOutputDelimiter}}</span>
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">Filter ID</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        <span class="uk-text-large uk-text-middle">{{selectedData.filterId}}</span>
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">IP</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        {{selectedData.ip}}
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">Username</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        {{selectedData.username}}
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">Password</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        {{selectedData.username}}
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                            </div>
+                            <div class="uk-width-large-1-2">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">File Output ID</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        <span class="uk-text-large uk-text-middle">{{selectedData.fileOutputId}}</span>
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">Output File Type ID</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        <span class="uk-text-large uk-text-middle">{{selectedData.outputFileTypeId}}</span>
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">protocolType</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        {{selectedData.protocolType}}
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">Path Local</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        <span class="uk-text-large uk-text-middle">{{selectedData.path}}</span>
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">Path Remote</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        <span class="uk-text-large uk-text-middle">{{selectedData.pathRemote}}</span>
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                                <div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">Pattern</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        <span class="uk-text-large uk-text-middle">{{selectedData.patternToSend}}</span>
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">
+                                <!--<div class="uk-grid uk-grid-small">
+                                    <div class="uk-width-large-1-3">
+                                        <span class="uk-text-muted uk-text-small">Cron</span>
+                                    </div>
+                                    <div class="uk-width-large-2-3">
+                                        <span class="uk-text-large uk-text-middle">{{selectedData.cron}}</span>
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider">-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

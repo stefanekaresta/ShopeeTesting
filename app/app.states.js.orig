@@ -1,0 +1,2048 @@
+altairApp
+    .config([
+        '$stateProvider',
+        '$urlRouterProvider',
+        function ($stateProvider, $urlRouterProvider) {
+
+            // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
+            $urlRouterProvider
+                .when('/', '/login')
+                .otherwise('/login');
+
+            $stateProvider
+                // -- ERROR PAGES --
+                .state("error", {
+                    url: "/error",
+                    templateUrl: 'app/views/error.html',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_uikit'
+                            ]);
+                        }]
+                    }
+                })
+                .state("error.404", {
+                    url: "/404",
+                    templateUrl: 'app/components/pages/error_404View.html'
+                })
+                .state("error.500", {
+                    url: "/500",
+                    templateUrl: 'app/components/pages/error_500View.html'
+                })
+
+                // -- NEWNETA WIFIID --
+                // -- login state --
+                .state("login", {
+                    url: "/login",
+                    templateUrl: 'app/components/digi/login/loginView.html',
+                    controller: 'newnetaLoginCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_uikit',
+                                'lazy_iCheck',
+                                'app/components/digi/login/loginController.js',
+                                'app/components/factory/SecurityModuleService.js',
+                                'app/components/service/NotificationService.js'
+                            ]);
+                        }]
+                    }
+                })
+
+                /*
+                 * ========================================================
+                 * Manage by hendra
+                 * */
+
+                /*
+                 * User Management
+                 * */
+                // -- digi state --
+                .state("digi", {
+                    abstract: true,
+                    url: "",
+                    views: {
+                        'main_header': {
+                            templateUrl: 'app/shared/header/headerView.html',
+                            controller: 'main_headerCtrl'
+                        },
+                        'main_sidebar': {
+                            templateUrl: 'app/shared/main_sidebar/main_sidebarView.html',
+                            controller: 'main_sidebarCtrl'
+                        },
+                        '': {
+                            templateUrl: 'app/views/restricted.html'
+                        }
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_uikit',
+                                'lazy_selectizeJS',
+                                'lazy_switchery',
+                                'lazy_prismJS',
+                                'lazy_autosize',
+                                'lazy_iCheck',
+                                'lazy_themes',
+                                'lazy_style_switcher',
+                                'app/shared/header/headerController.js',
+                                'app/shared/main_sidebar/main_sidebarController.js'
+                            ]);
+                        }]
+                    }
+                })
+                // -- digi user management --
+                .state("digi.createuser", {
+                    url: "/user/create",
+                    templateUrl: 'app/components/digi/usermanagement/create/form-create-user.html',
+                    controller: 'digiCreateUserCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/usermanagement/create/createUserController.js',
+                                'app/components/factory/AccessModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'lazy_KendoUI',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Create User'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Create User'
+                    }
+                })
+                .state("digi.searchuser", {
+                    url: "/user/search",
+                    templateUrl: 'app/components/digi/usermanagement/view/view-user.html',
+                    controller: 'digiViewUserCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/usermanagement/view/ViewUserController.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Search User'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Search User'
+                    }
+                }).state("digi.viewdetailuser", {
+                    url: "/user/view/detail",
+                    templateUrl: 'app/components/digi/usermanagement/view-detail/view-detail-user.html',
+                    controller: 'digiViewDetailUserCtrl',
+                    params: {
+                        userId: '000',
+
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'app/components/digi/usermanagement/view-detail/ViewDetailUserController.js',
+                                'app/components/factory/AccessModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'lazy_KendoUI',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Detail User'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Detail User'
+                    }
+                }).state("digi.updateuser", {
+                    url: "/user/update",
+                    templateUrl: 'app/components/digi/usermanagement/update/form-update-user.html',
+                    controller: 'digiUpdateUserCtrl',
+                    params: {
+                        userId: '000',
+                        organizationId: '000',
+                        organizationName: '000'
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/usermanagement/update/updateUserController.js',
+                                'app/components/factory/AccessModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'lazy_KendoUI',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Update User'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Update User'
+                    }
+                })
+
+                //---------------------------menunya newsevent-----------
+                .state("digi.insertnewsevent", {
+                    url: "/newsevent/insert",
+                    templateUrl: 'app/components/digi/newsevent/create/f_insert_newsevent.html',
+                    //controller: 'ctrl_insert_newsevent',
+                    controller: 'ctrl_insert_newsevent',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_ckeditor',
+                                'app/components/digi/newsevent/create/ctrl_insert_newsevent.js',
+                                'app/components/factory/NewsEventModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }],
+                    },
+                    data: {
+                        pageTitle: 'Create News & Event'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Create News & Event'
+                    }
+                })
+
+                .state("digi.updatenewsevent", {
+                    url: "/newsevent/update",
+                    templateUrl: 'app/components/digi/newsevent/update/f_update_newsevent.html',
+                    controller: 'ctrl_update_newsevent',
+                    params: {
+                        newsEventId: '000',
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_ckeditor',
+                                'app/components/digi/newsevent/update/ctrl_update_newsevent.js',
+                                'app/components/factory/NewsEventModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }],
+                    },
+                    data: {
+                        pageTitle: 'Update News & Event'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Update News & Event'
+                    }
+                })
+                .state("digi.viewnewsevent", {
+                    url: "/newsevent/view",
+                    templateUrl: 'app/components/digi/newsevent/view/f_view_newsevent.html',
+                    controller: 'ctrl_view_newsevent',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/newsevent/view/ctrl_view_newsevent.js',
+                                'app/components/factory/NewsEventModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }],
+                    },
+                    data: {
+                        pageTitle: 'Search News & Event'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Search News & Event'
+                    }
+                })
+                .state("digi.detailnewsevent", {
+                    url: "/newsevent/detail",
+                    templateUrl: 'app/components/digi/newsevent/view-detail/f_detail_newsevent.html',
+                    controller: 'ctrl_detail_newsevent',
+                    params: {
+                        newsEventId: '000',
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/newsevent/view-detail/ctrl_detail_newsevent.js',
+                                'app/components/factory/NewsEventModuleFactory.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }],
+                    },
+                    data: {
+                        pageTitle: 'Detail News & Event'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View News & Event Detail'
+                    }
+                })
+                /*
+                 * =======================================================
+                 * ASSIGNMENT
+                 * */
+                // .state("digi.searchassignment", {
+                //     url: "/assignment/search",
+                //     templateUrl: 'app/components/digi/assignment/search/view-assignment.html',
+                //     controller: 'digiViewAssignmentCtrl',
+                //     resolve: {
+                //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                //             return $ocLazyLoad.load([
+                //                 'bower_components/angular-resource/angular-resource.min.js',
+                //                 'lazy_datatables',
+                //                 'app/components/digi/assignment/search/ViewAssignmentController.js',
+                //                 'app/components/factory/AssignmentModuleFactory.js',
+                //                 'app/components/service/NotificationService.js'
+                //             ], {serie: true});
+                //         }],
+                //     },
+                //     data: {
+                //         pageTitle: 'Search Assignment'
+                //     },
+                //     ncyBreadcrumb: {
+                //         label: 'Search Assignment'
+                //     }
+                // })
+                // .state("digi.createassignment", {
+                //     url: "/assignment/search",
+                //     templateUrl: 'app/components/digi/assignment/search/view-assignment.html',
+                //     controller: 'digiViewAssignmentCtrl',
+                //     resolve: {
+                //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                //             return $ocLazyLoad.load([
+                //                 'bower_components/angular-resource/angular-resource.min.js',
+                //                 'lazy_datatables',
+                //                 'app/components/digi/assignment/search/ViewAssignmentController.js',
+                //                 'app/components/factory/AssignmentModuleFactory.js',
+                //                 'app/components/service/NotificationService.js'
+                //             ], {serie: true});
+                //         }],
+                //     },
+                //     data: {
+                //         pageTitle: 'Create Assignment'
+                //     },
+                //     ncyBreadcrumb: {
+                //         label: 'Create Assignment'
+                //     }
+                // }).state("digi.updateassignment", {
+                //     url: "/assignment/search",
+                //     templateUrl: 'app/components/digi/assignment/search/view-assignment.html',
+                //     controller: 'digiViewAssignmentCtrl',
+                //     resolve: {
+                //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                //             return $ocLazyLoad.load([
+                //                 'bower_components/angular-resource/angular-resource.min.js',
+                //                 'lazy_datatables',
+                //                 'app/components/digi/assignment/search/ViewAssignmentController.js',
+                //                 'app/components/factory/AssignmentModuleFactory.js',
+                //                 'app/components/service/NotificationService.js'
+                //             ], {serie: true});
+                //         }],
+                //     },
+                //     data: {
+                //         pageTitle: 'Update Assignment'
+                //     },
+                //     ncyBreadcrumb: {
+                //         label: 'Update Assignment'
+                //     }
+                // }).state("digi.viewdetailassignment", {
+                //     url: "/assignment/view/details",
+                //     templateUrl: 'app/components/digi/assignment/viewdetail/view-detail-assignment.html',
+                //     controller: 'digiViewDetailAssignmentCtrl',
+                //     params: {
+                //         assignmentId: '000'
+                //     },
+                //     resolve: {
+                //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                //             return $ocLazyLoad.load([
+                //                 'app/components/digi/assignment/viewdetail/ViewDetailAssignmentController.js',
+                //                 'app/components/factory/AssignmentModuleFactory.js',
+                //                 'app/components/service/NotificationService.js'
+                //             ], {serie: true});
+                //         }],
+                //     },
+                //     data: {
+                //         pageTitle: 'View Detail Assignment'
+                //     },
+                //     ncyBreadcrumb: {
+                //         label: 'View Detail Assignment'
+                //     }
+                // })
+
+
+                /*
+                 * ========================================================
+                 * END
+                 * */
+                // -- newneta state --
+                .state("newneta", {
+                    abstract: true,
+                    url: "",
+                    views: {
+                        'main_header': {
+                            templateUrl: 'app/shared/header/headerView.html',
+                            controller: 'main_headerCtrl'
+                        },
+                        'main_sidebar': {
+                            templateUrl: 'app/shared/main_sidebar/main_sidebarView.html',
+                            controller: 'main_sidebarCtrl'
+                        },
+                        '': {
+                            templateUrl: 'app/views/restricted.html'
+                        }
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_uikit',
+                                'lazy_selectizeJS',
+                                'lazy_switchery',
+                                'lazy_prismJS',
+                                'lazy_autosize',
+                                'lazy_iCheck',
+                                'lazy_themes',
+                                'lazy_style_switcher',
+                                'app/shared/header/headerController.js',
+                                'app/shared/main_sidebar/main_sidebarController.js'
+                            ]);
+                        }]
+                    }
+                })
+                .state("newneta.dashboard_sys_pro", {
+                    url: "/dashboard_sys_pro",
+                    templateUrl: 'app/components/newneta/dashboard/dash_system_process/dashSysProView.html',
+                    controller: 'appCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_charts_peity',
+                                'lazy_charts_easypiechart',
+                                'lazy_charts_metricsgraphics',
+                                'lazy_charts_chartist',
+                                'lazy_charts_c3',
+                                'app/components/newneta/dashboard/dash_system_process/dashSysProController.js']);
+                        }],
+                        show_file_queue_value_waiting: function ($http, ServerConfig) {
+                            var param_config_ui = {
+                                method: 'GET',
+                                url: ServerConfig.production +  '/neta/wifiid/dashboard/value/file_queue?param=Waiting',
+                                headers: {}
+                            };
+                            return $http(param_config_ui)
+                                .then(function (data) {
+                                    return data.data;
+                                });
+                        },
+                        show_file_queue_value_finished: function ($http, ServerConfig) {
+                            var param_config_ui = {
+                                method: 'GET',
+                                url: ServerConfig.production + '/neta/wifiid/dashboard/value/file_queue?param=Finished',
+                                headers: {}
+                            };
+                            return $http(param_config_ui)
+                                .then(function (data) {
+                                    return data.data;
+                                });
+                        },
+                        show_file_queue_value_processing: function ($http, ServerConfig) {
+                            var param_config_ui = {
+                                method: 'GET',
+                                url: ServerConfig.production + '/neta/wifiid/dashboard/value/file_queue?param=Processing',
+                                headers: {}
+                            };
+                            return $http(param_config_ui)
+                                .then(function (data) {
+
+                                    return data.data;
+                                });
+                        },
+                        show_file_queue_value_all: function ($http, ServerConfig) {
+                            var param_config_ui = {
+                                method: 'GET',
+                                url: ServerConfig.production + '/neta/wifiid/dashboard/value/file_queue?param=Error',
+                                headers: {}
+                            };
+                            return $http(param_config_ui)
+                                .then(function (data) {
+                                    return data.data;
+                                });
+                        }
+                    },
+                    data: {
+                        pageTitle: 'Dashboard System & Process'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Dashboard System & Process'
+                    }
+                })
+                // dashboard1
+                .state("newneta.dashboard1", {
+                    url: "/dashboard1",
+                    templateUrl: 'app/components/digi/dashboard/dashboard1/dashboard1View.html',
+                    controller: 'dashboard1Ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_charts_peity',
+                                'lazy_charts_easypiechart',
+                                'lazy_charts_metricsgraphics',
+                                'lazy_charts_chartist',
+                                'lazy_tablesorter',
+                                'lazy_charts_c3',
+                                'app/components/digi/dashboard/dashboard1/dashboard1Controller.js',
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/factory/DashboardReportModuleFactory.js',
+                                'app/components/factory/AddHocAssignmentModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'newNeta Dashboard 1'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Dashboard System & Process'
+                    }
+                })
+                .state("newneta.setting.user", {
+                    url: "/user",
+                    template: '<div ui-view autoscroll="false"/>',
+                    abstract: true
+                })
+
+                // -- RESTRICTED --
+                .state("restricted", {
+                    abstract: true,
+                    url: "",
+                    views: {
+                        'main_header': {
+                            templateUrl: 'app/shared/header/headerView.html',
+                            controller: 'main_headerCtrl'
+                        },
+                        'main_sidebar': {
+                            templateUrl: 'app/shared/main_sidebar/main_sidebarView.html',
+                            controller: 'main_sidebarCtrl'
+                        },
+                        '': {
+                            templateUrl: 'app/views/restricted.html'
+                        }
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_uikit',
+                                'lazy_selectizeJS',
+                                'lazy_switchery',
+                                'lazy_prismJS',
+                                'lazy_autosize',
+                                'lazy_iCheck',
+                                'lazy_themes',
+                                'lazy_style_switcher',
+                                'app/shared/header/headerController.js',
+                                'app/shared/main_sidebar/main_sidebarController.js'
+                            ]);
+                        }]
+                    }
+                })
+                // -- DASHBOARD --
+                .state("restricted.dashboard", {
+                    url: "/dashboard1",
+                    templateUrl: 'app/components/dashboard/dashboardView.html',
+                    controller: 'dashboardCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                // ocLazyLoad config (app/app.js)
+                                'lazy_countUp',
+                                'lazy_charts_peity',
+                                'lazy_charts_easypiechart',
+                                'lazy_charts_metricsgraphics',
+                                'lazy_charts_chartist',
+                                'lazy_weathericons',
+                                'lazy_clndr',
+                                'app/components/dashboard/dashboardController.js'
+                            ], {serie: true});
+                        }],
+                        sale_chart_data: function ($http) {
+                            return $http({method: 'GET', url: 'data/mg_dashboard_chart.min.json'})
+                                .then(function (data) {
+                                    return data.data;
+                                });
+                        },
+                        user_data: function ($http) {
+                            return $http({method: 'GET', url: 'data/user_data.json'})
+                                .then(function (data) {
+                                    return data.data;
+                                });
+                        }
+                    },
+                    data: {
+                        pageTitle: 'Dashboard'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Home'
+                    }
+                })
+                .state("digi.createlocation", {
+                    url: "/location/create",
+                    templateUrl: 'app/components/digi/location/create-location.html',
+                    controller: 'digiCreateLocationCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+
+                                'app/components/digi/location/CreateLocationController.js',
+                                'app/components/factory/AccessModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/factory/LocationModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }],
+                    },
+                    data: {
+                        pageTitle: 'Create Location'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Create Location'
+                    }
+                })
+                //    tambah
+                .state("digi.accesstracking", {
+                    url: "/accesstracking/search",
+                    templateUrl: 'app/components/digi/accesstracking/search/view-accesstracking.html',
+                    controller: 'digiAccessTrackingCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/accesstracking/search/AccessTrackingController.js',
+                                'app/components/factory/AccessTrackingModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }],
+                    },
+                    data: {
+                        pageTitle: 'Access & Tracking'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Access & Tracking'
+                    }
+                })
+
+                //update accesstracking
+                .state("digi.updateaccesstracking", {
+                    url: "/accesstracking/update",
+                    templateUrl: 'app/components/digi/accesstracking/update/update-accesstracking.html',
+                    controller: 'digiAccessTrackingCtrl',
+                    params: {
+                        id: '000'
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                /*'bower_components/angular-resource/angular-resource.min.js',
+                                 'lazy_datatables',*/
+                                'app/components/digi/accesstracking/search/AccessTrackingController.js',
+                                'app/components/factory/AccessTrackingModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }],
+                    },
+                    data: {
+                        pageTitle: 'UpdateAccess & Tracking'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Update Access & Tracking'
+                    }
+                })
+                //akhir
+                .state("digi.accessgroupview", {
+                    url: "/AccessGroup/view",
+                    templateUrl: 'app/components/digi/accessgroupmanagement/view/view.html',
+                    controller: 'digiViewAccessGroupCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/accessgroupmanagement/view/AccessGroupView.js',
+                                'app/components/factory/accessgroupmanagementFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Search Group Access'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Search Group Access'
+                    }
+                })
+                .state("digi.insertgroupaccess", {
+                    url: "/Access Group/create",
+                    templateUrl: 'app/components/digi/accessgroupmanagement/insert/insertgroupaccess.html',
+                    controller: 'digiCreateAccessGroupCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_parsleyjs',
+                                'lazy_wizard',
+                                'tree_menu_tes',
+                                'app/components/digi/accessgroupmanagement/insert/ctrlAccessGroup.js',
+                                'app/components/factory/AccessModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/factory/accessgroupmanagementFactory.js',
+                                'app/components/service/NotificationService.js',
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Create Group Access'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Create Group Access'
+                    }
+                })
+                .state("digi.changePassword", {
+                    url: "/usermanagement/changePassword",
+                    templateUrl: 'app/components/digi/usermanagement/changePassword/changePassword.html',
+                    controller: 'digichangePasswordCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/usermanagement/changePassword/changePasswordController.js',
+                                'app/components/factory/AccessModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Change Password'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Change Password'
+                    }
+                })
+
+                // .state("digi.manageQrCode", {
+                //     url: "/QrCode/mappingQrCode",
+                //     templateUrl: 'app/components/digi/QrCode/mappingQrCode/insertmapping.html',
+                //     controller: 'digiQrcodeMappings',
+                //     resolve: {
+                //         deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                //             return $ocLazyLoad.load([
+                //                 'app/components/digi/QrCode/mappingQrCode/mappingQrCodectrl.js',
+                //                 'app/components/factory/Qrfactory.js',
+                //                 'app/components/factory/ConfigurationModuleFactory.js',
+                //                 'app/components/factory/OrganisationModuleFactory.js',
+                //                 'app/components/service/NotificationService.js',
+                //                 'lazy_KendoUI',
+                //                 'app/components/factory/UserManagementModuleFactory.js',
+                //                 'app/components/factory/AreaFactory.js'
+
+
+
+                //             ], {serie: true} );
+                //         }]
+                //     },
+                //     data: {
+                //         pageTitle: 'Mapping Qr Code'
+                //     },
+                //     ncyBreadcrumb: {
+                //         label: 'Mapping Qr Code'
+                //     }
+                // })
+                .state("digi.manageQrCode", {
+                    url: "/QrCode/mappingQrCode",
+                    templateUrl: 'app/components/digi/QrCode/mappingQrCode/insertmapping.html',
+                    controller: 'digiQrcodeMappings',
+                      params: {
+                        mappingid: '000',
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/QrCode/mappingQrCode/mappingQrCodectrl.js',
+                                'app/components/factory/Qrfactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/service/NotificationService.js',
+                                'lazy_KendoUI',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/factory/AreaFactory.js'
+                                
+                               
+
+
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Mapping Qr Code'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Mapping Qr Code'
+                    }
+                })
+
+                .state("digi.updateMapping2", {
+                    url: "/QrCode/updateMapping",
+                    templateUrl: 'app/components/digi/QrCode/updateMapping/updateMapping.html',
+                    controller: 'digiUpdateMappingCtrl',
+                    params: {
+                        mappingid: '000',
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/QrCode/updateMapping/updateMapping.js',
+                                'app/components/factory/Qrfactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Update mapping QR Code'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Update Mapping QR Code'
+                    }
+                })
+                .state("digi.downloadQrcode", {
+                    url: "/QrCode/downloadQrcode",
+                    templateUrl: 'app/components/digi/QrCode/downloadQrcode/viewqrcode.html',
+                    controller: 'Qrcodectrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/QrCode/downloadQrcode/downloadqrcode.js',
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/factory/Qrfactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Installation Mapping'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Installation Mapping'
+                    }
+                })
+
+                .state("digi.viewattendance", {
+                    url: "/attendance/view",
+                    templateUrl: 'app/components/digi/attendance/view/view-attendance.html',
+                    controller: 'digiAttendanceCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/attendance/view/ViewAttendanceController.js',
+                                'app/components/factory/AttendanceModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Attendance'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Attendance'
+                    }
+                })
+
+
+                .state("digi.viewdetailattendance", {
+                    url: "/attendance/view/detail",
+                    templateUrl: 'app/components/digi/attendance/view-detail/view-detail-attendance.html',
+                    controller: 'digiViewDetailAttendanceCtrl',
+                    params: {
+                        id: '000'
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                //'app/components/factory/AccessModuleFactory.js',
+                                'app/components/digi/attendance/view-detail/ViewDetailAttendanceController.js',
+                                'app/components/factory/AttendanceModuleFactory.js',
+                                //'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Detail Attendance'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Detail Attendance'
+                    }
+                })
+
+                .state("digi.attendancecorrection", {
+                    url: "/attendance/correction",
+                    templateUrl: 'app/components/digi/attendance/correction/attendance-correction.html',
+                    controller: 'digiAttendaceCorrectionCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/attendance/correction/AttendanceCorrectionController.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/service/NotificationService.js',
+                                'app/components/factory/AttendanceModuleFactory.js',
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Attendance Correction'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Attendance Correction'
+                    }
+                })
+                .state("digi.attendanceovertimeapproval", {
+                    url: "/customer/overtime/approval",
+                    templateUrl: 'app/components/digi/customer/overtime-approval/overtime-approval.html',
+                    controller: 'digiOvertimeCustomerApprovalCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/customer/overtime-approval/CustomerOvertimeApprovalController.js',
+                                'app/components/factory/AttendanceModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'lazy_KendoUI',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Overtime Approval'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Overtime Approval'
+                    }
+                })
+                .state("digi.managegroupmessage", {
+                    url: "/group/message",
+                    templateUrl: 'app/components/digi/newsevent/groupmessage/create/manage-group-message.html',
+                    controller: 'digiManageGroupMessageController',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                /* 'bower_components/angular-resource/angular-resource.min.js',
+                                 'lazy_datatables',*/
+                                'app/components/digi/newsevent/groupmessage/create/ManageGroupMessageController.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/factory/NewsEventModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/service/NotificationService.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'lazy_KendoUI'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Manage Group Message'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Manage Group Message'
+                    }
+                })
+
+                .state("digi.viewGroupMessage", {
+                    url: "/group/view",
+                    templateUrl: 'app/components/digi/newsevent/groupmessage/view/view-group-message.html',
+                    controller: 'digiViewGroupMessageCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/newsevent/groupmessage/view/ViewGroupAccess.js',
+                                'app/components/factory/NewsEventModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Group Message'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Group Message'
+                    }
+                })
+
+                .state("digi.viewDetailGroupMessage", {
+                    url: "/group/view/detail",
+                    templateUrl: 'app/components/digi/newsevent/groupmessage/viewDetail/view-detail-group-message.html',
+                    controller: 'digiViewDetailGroupMessageCtrl',
+                    params: {
+                        groupMessageId: '000',
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/newsevent/groupmessage/viewDetail/ViewDetailGroupMessage.js',
+                                'app/components/factory/NewsEventModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Detail Message Group'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Detail Message Group'
+                    }
+                })
+
+                .state("digi.updateGroupMessage", {
+                    url: "/group/update",
+                    templateUrl: 'app/components/digi/newsevent/groupmessage/update/form-update-groupmessage.html',
+                    controller: 'digiUpdateGroupMessageCtrl',
+                    params: {
+                        groupMessageId: '000',
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/newsevent/groupmessage/update/UpdateGroupMessage.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/service/NotificationService.js',
+                                'app/components/factory/NewsEventModuleFactory.js',
+                                'lazy_KendoUI'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Update Message Group'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Update Message Group'
+                    }
+                })
+                .state("digi.approval", {
+                    url: "/usermanagement/approval",
+                    templateUrl: 'app/components/digi/usermanagement/approval/form-approval-user.html',
+                    controller: 'digiApprovalUserCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/usermanagement/approval/ApprovalController.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Approval User'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Approval User'
+                    }
+                })
+                .state("digi.uploaduk", {
+                    url: "/uk/uploaduk",
+                    templateUrl: 'app/components/digi/uk/uploaduk/viewuploaduk.html',
+                    controller: 'digiUploadUk',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/uk/uploaduk/uploadUk.js',
+                                'app/components/factory/AccessModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/uploadUkFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Upload file Uk'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Upload file Uk'
+                    }
+                })
+                .state("digi.ViewUk2", {
+                    url: "/uk/viewuk/view",
+                    templateUrl: 'app/components/digi/uk/viewuk/view.html',
+                    controller: 'ctrlviewUk',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/uk/viewuk/viewuk.js',
+                                'app/components/factory/uploadUkFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Upload file Uk'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Upload file Uk'
+                    }
+                })
+                //CUSTOMER
+                .state("digi.createcustomeruser", {
+                    url: "/customer/user/create",
+                    templateUrl: 'app/components/digi/customer/create/form-create-customer-user.html',
+                    controller: 'digiCreateCustomerUserCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/customer/create/createCustomerUserController.js',
+                                'app/components/factory/AccessModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'lazy_KendoUI',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Create Customer User'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Create Customer User'
+                    }
+                })
+                .state("digi.searchcustomeruser", {
+                    url: "/customer/user/search",
+                    templateUrl: 'app/components/digi/customer/view/view-user.html',
+                    controller: 'digiViewCustomerUserCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/customer/view/ViewUserController.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Search Customer User'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Search Customer User'
+                    }
+                })
+                .state("digi.updatecustomeruser", {
+                    url: "/customer/user/update",
+                    templateUrl: 'app/components/digi/customer/update/form-update-user.html',
+                    controller: 'digiUpdateCustomerUserCtrl',
+                    params: {
+                        userId: '000',
+                        organizationId: '000',
+                        organizationName: '000'
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/customer/update/updateUserController.js',
+                                'app/components/factory/AccessModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'lazy_KendoUI',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Update Customer User'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Update Customer User'
+                    }
+                })
+                .state("digi.viewdetailcustomeruser", {
+                    url: "/customer/view/detail",
+                    templateUrl: 'app/components/digi/customer/view-detail/view-detail-user.html',
+                    controller: 'digiViewDetailCustomerUserCtrl',
+                    params: {
+                        userId: '000',
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'app/components/digi/customer/view-detail/ViewDetailUserController.js',
+                                'app/components/factory/AccessModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'lazy_KendoUI',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Detail Customer User'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Detail Customer User'
+                    }
+                })
+                //AREA
+                .state("digi.createarea", {
+                    url: "/area/create/",
+                    templateUrl: 'app/components/digi/area/create/areacreate.html',
+                    controller: 'digicreatearea',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/area/create/areacreate.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/AreaFactory.js',
+                                'app/components/service/NotificationService.js',
+                                'lazy_KendoUI',
+                                'autocom'
+                                // 'lazy_KendoUI'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Create Area'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Create Area'
+                    }
+                })
+                .state("digi.listarea", {
+                    url: "/area/list",
+                    templateUrl: 'app/components/digi/area/list/listarea.html',
+                    controller: 'ctrlListarea',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/factory/AreaFactory.js',
+                                'app/components/digi/area/list/listarea.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'List Area'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'List Area'
+                    }
+                })
+
+                .state("digi.updatearea", {
+                    url: "/area/detail/",
+                    templateUrl: 'app/components/digi/area/update/updatearea.html',
+                    controller: 'ctrlupdatearea',
+                    params: {
+                        id: '000'
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_KendoUI',
+                                'app/components/digi/area/update/updatearea.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/AreaFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Update Area'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Update Area'
+                    }
+                })
+
+                //konfigurasi
+                             .state("digi.insertGlobalType", {
+                                     url: "/create/tambahglobaltype",
+                                     templateUrl: 'app/components/digi/configuration/globaltype/create/tambahglobaltype.html',
+                                     controller: 'KonfigurasiModuleController',
+                                     resolve: {
+                                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                                 return $ocLazyLoad.load([
+                                                         'lazy_ckeditor',
+                                                         'app/components/digi/configuration/globaltype/create/CreateGlobalType.js',
+                                                         'app/components/factory/ConfigurationModuleFactory.js',
+                                                         'app/components/service/NotificationService.js'
+                                                     ], {serie: true});
+                                             }],
+                                         },
+                                 data: {
+                                         pageTitle: 'Insert Global Type'
+                                     },
+                                 ncyBreadcrumb: {
+                                         label: 'Konfigurasi'
+                                     }
+                             })
+
+                .state("digi.viewGlobalType", {
+                                     url: "/view/tambahglobaltype",
+                                     templateUrl: 'app/components/digi/configuration/globaltype/view/viewglobaltype.html',
+                                     controller: 'ViewGlobalTypeCtrl',
+                                     resolve: {
+                                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                                 return $ocLazyLoad.load([
+                                                         'bower_components/angular-resource/angular-resource.min.js',
+                                             'lazy_datatables',
+                                                         'app/components/digi/configuration/globaltype/view/ViewGlobalType.js',
+                                                         'app/components/factory/ConfigurationModuleFactory.js',
+                                                         'app/components/service/NotificationService.js'
+                                                     ], {serie: true});
+                                             }],
+                                         },
+                                 data: {
+                                         pageTitle: 'View Global Type'
+                                     },
+                                 ncyBreadcrumb: {
+                                         label: 'Konfigurasi'
+                                     }
+                             })
+
+                .state("digi.updateGlobalType", {
+                                     url: "/update/tambahglobaltype",
+                                     templateUrl: 'app/components/digi/configuration/globaltype/update/updateglobaltype.html',
+                                     controller: 'UpdateGlobalTypeCtrl',
+                                     params: {
+                                        id: '000'
+                                    },
+                                     resolve: {
+                                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                                 return $ocLazyLoad.load([
+                                                         'lazy_ckeditor',
+                                                         'app/components/digi/configuration/globaltype/update/UpdateGlobalType.js',
+                                                         'app/components/factory/ConfigurationModuleFactory.js',
+                                                         'app/components/service/NotificationService.js'
+                                                     ], {serie: true});
+                                             }],
+                                         },
+                                 data: {
+                                         pageTitle: 'Insert Global Type'
+                                     },
+                                 ncyBreadcrumb: {
+                                         label: 'Konfigurasi'
+                                     }
+                             })
+ 
+                 .state("digi.insertMobile", {
+                         url: "/create/MobileUpdate",
+                         templateUrl: 'app/components/digi/configuration/mobile/mobileupdate.html',
+                         controller: 'MobileUpdateController',
+                         resolve: {
+                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                     return $ocLazyLoad.load([
+                                             'app/components/digi/configuration/mobile/MobileUpdate.js',
+                                             'app/components/factory/ConfigurationModuleFactory.js',
+                                             'app/components/service/NotificationService.js'
+                                         ], {serie: true});
+                                 }],
+                             },
+                     data: {
+                             pageTitle: 'Insert Mobile Update'
+                         },
+                     ncyBreadcrumb: {
+                             label: 'Konfigurasi'
+                         }
+                 })
+ 
+                     .state("digi.viewMobileLatest", {
+                         url: "/view/MobileUpdate",
+                         templateUrl: 'app/components/digi/configuration/mobile/view/view-mobile.html',
+                         controller: 'digiViewUpdateMobileLatest',
+                         resolve: {
+                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                     return $ocLazyLoad.load([
+                                             'bower_components/angular-resource/angular-resource.min.js',
+                                             'lazy_datatables',
+                                             'app/components/digi/configuration/mobile/view/ViewMobile.js',
+                                             'app/components/factory/ConfigurationModuleFactory.js',
+                                             'app/components/service/NotificationService.js'
+                                         ], {serie: true});
+                                 }],
+                             },
+                     data: {
+                             pageTitle: 'View Mobile Update Latest'
+                         },
+                     ncyBreadcrumb: {
+                             label: 'Konfigurasi'
+                         }
+                 })
+
+                .state("digi.downloadAPK", {
+                    url: "/download/DownloadAPK",
+                    templateUrl: 'app/components/digi/configuration/mobile/download/DownloadAPK.html',
+                    controller: 'digiDownloadAPK',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                               /* 'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',*/
+                                'app/components/digi/configuration/mobile/download/DownloadAPK.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }],
+                    }
+                   /* data: {
+                        pageTitle: 'View Mobile Update Latest'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Konfigurasi'
+                    }*/
+                })
+
+                .state("digi.searchO3Request1", {
+                    url: "/o3request/view/view-o3request",
+                    templateUrl: 'app/components/digi/o3request/view/view-o3request.html',
+                    controller: 'digiView03Request',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                 'app/components/factory/ConfigurationModuleFactory.js',
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/o3request/view/View-O3Request.js',
+                                'app/components/factory/O3RequestModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Search O3 Request'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Search O3 Request'
+                    }
+                })
+
+                .state("digi.viewdetailO3Request", {
+                    url: "/o3request/view-detail",
+                    templateUrl: 'app/components/digi/o3request/view-detail/view-detail-o3request.html',
+                    controller: 'digiViewDetailO3Request',
+                    params: {
+                        id: '000',
+                        avatar:'',
+                        supervisor:''
+                        
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'app/components/digi/o3request/view-detail/View-Detail-O3Request.js',
+                                'app/components/factory/O3RequestModuleFactory.js',
+                                'app/components/service/NotificationService.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Detail O3 Request'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Detail O3 Request'
+                    }
+                })
+
+                .state("digi.viewKehadiran", {
+                    url: "/attendance/view/kehadiran",
+                    templateUrl: 'app/components/digi/attendance/kehadiran/view/view-kehadiran.html',
+                    controller: 'digiViewKehadiran',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/attendance/kehadiran/view/ViewKehadiran.js',
+                                'app/components/factory/AttendanceModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Kehadiran'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Kehadiran'
+                    }
+                })
+
+                .state("digi.viewDetailKehadiran1", {
+                    url: "/attendance/view/detailkehadiran",
+                    templateUrl: 'app/components/digi/attendance/kehadiran/view-detail/view-detail-kehadiran.html',
+                    controller: 'digiViewDetailKehadiran',
+                    params: {
+                        userid: '000',
+                        date:''
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/attendance/kehadiran/view-detail/ViewDetailKehadiran.js',
+                                'app/components/factory/AttendanceModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Attendance'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Attendance'
+                    }
+                })
+                .state("digi.viewOvertime",{
+                    url:"/search/overtime/view",
+                    templateUrl:'app/components/digi/search/overtime/view/view-overtime.html',
+                    controller:"digiViewOvertimeCtrl",
+                    resolve:{
+                        deps:['$ocLazyLoad', function ($ocLazyLoad){
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/search/overtime/view/ViewOvertime.js',
+                                'app/components/factory/AttendanceModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ])
+                        }]
+                    }
+                })
+
+                .state("digi.viewAttendanceCorrection", {
+                    url: "/attendance/view/attendance/correction",
+                    templateUrl: 'app/components/digi/search/attendance_correction/view/view-attendance-correction.html',
+                    controller: 'digiViewAttendanceCorrection',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/search/attendance_correction/view/ViewAttendanceCorrection.js',
+                                'app/components/factory/AttendanceModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Attendance Correction'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Attendance Correction'
+                    }
+                })
+
+                .state("digi.viewDetailAttendanceCorrection", {
+                    url: "/attendance/view/detailattendancecorrection",
+                    templateUrl: 'app/components/digi/search/attendance_correction/view-detail/view-detail-attendance-correction.html',
+                    controller: 'digiViewDetailAttendanceCorrection',
+                    params: {
+                        id: '000',
+                        date:''
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/digi/search/attendance_correction/view-detail/ViewDetailAttendanceCorrection.js',
+                                'app/components/factory/AttendanceModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Attendance Correction'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Attendance Correction'
+                    }
+                })
+
+                .state("digi.viewPatroli", {
+                    url: "/patroli/view/patroli",
+                    templateUrl: 'app/components/digi/patroli/search/search-patroli.html',
+                    controller: 'digiSearchPatroliCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/patroli/search/SearchPatroliController.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/PatroliModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Patroli'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Patroli'
+                    }
+                })
+
+                .state("digi.viewDetailPatroliKhusus", {
+                    url: "/patroli/khusus/view/detail",
+                    templateUrl: 'app/components/digi/patroli/search-detail-patroli/search-detail-patroli.html',
+                    controller: 'digiSearchDetailPatroliCtrl',
+                    params: {
+                        patroliId: '000'
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                 'app/components/digi/patroli/search-detail-patroli/SearchDetailPatroliController.js',
+                                'app/components/factory/PatroliModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Detail Patroli Khusus'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Detail Patroli Khusus'
+                    }
+                })
+
+                .state("digi.viewPatroliKunjungan", {
+                    url: "/patroli/kunjungan/view",
+                    templateUrl: 'app/components/digi/search/patroli-kunjungan/view-patroli-kunjungan/view-patroli-kunjungan.html',
+                    controller: 'digiSearchPatroliKunjunganCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/digi/search/patroli-kunjungan/view-patroli-kunjungan/ViewPatroliKunjungan.js',
+                                'app/components/factory/PatroliModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Patroli'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Patroli'
+                    }
+                })
+
+                .state("digi.viewDetailPatroliKunjungan", {
+                    url: "/patroli/kunjungan/view/detail",
+                    templateUrl: 'app/components/digi/search/patroli-kunjungan/view-detail-patroli-kunjungan/view-detail-patroli-kunjungan.html',
+                    controller: 'digiSearchDetailPatroliKunjunganCtrl',
+                    params: {
+                        patroliId: '000'
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                 'app/components/digi/search/patroli-kunjungan/view-detail-patroli-kunjungan/ViewDetailPatroliKunjungan.js',
+                                'app/components/factory/PatroliModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Detail Patroli Khusus'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Detail Patroli Khusus'
+                    }
+                })
+
+                .state("digi.viewPatroliLaporan", {
+                    url: "/patroli/view/laporanpatroli",
+                    templateUrl: 'app/components/digi/search/patroli-laporan/view-patroli-laporan/view-patroli-laporan.html',
+                    controller: 'digiSearchPatroliLaporanCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/search/patroli-laporan/view-patroli-laporan/ViewPatroliLaporan.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/PatroliModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Patroli'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Patroli'
+                    }
+                })
+
+                .state("digi.viewDetailPatroliLaporan", {
+                    url: "/patroli/laporan/view/detail",
+                    templateUrl: 'app/components/digi/search/patroli-laporan/view-detail-patroli-laporan/view-detail-patroli-laporan.html',
+                    controller: 'digiSearchDetailPatroliLaporanCtrl',
+                    params: {
+                        patroliId: '000'
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                 'app/components/digi/search/patroli-laporan/view-detail-patroli-laporan/ViewDetailPatroliLaporan.js',
+                                'app/components/factory/PatroliModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Detail Patroli Khusus'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Detail Patroli Khusus'
+                    }
+                })
+
+                .state("digi.accessmobilegroupview", {
+                    url: "/AccessGroup/mobile/view",
+                    templateUrl: 'app/components/digi/accessgroupmobile/view/viewmobileaccess.html',
+                    controller: 'digiViewMobileAccessGroupCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/accessgroupmobile/view/viewmobileaccess.js',
+                                'app/components/factory/accessgroupmanagementFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Search Mobile Group Access'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Search Mobile Group Access'
+                    }
+                })
+                .state("digi.insertmobilegroupaccess", {
+                    url: "/Access Group/mobile/create",
+                    templateUrl: 'app/components/digi/accessgroupmobile/insert/insertmobileaccess.html',
+                    controller: 'digiCreateMobileAccessGroupCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_parsleyjs',
+                                'lazy_wizard',
+                                'tree_menu_tes',
+                                'app/components/digi/accessgroupmobile/insert/insertmobileaccess.js',
+                                'app/components/factory/AccessModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/OrganisationModuleFactory.js',
+                                'app/components/factory/accessgroupmanagementFactory.js',
+                                'app/components/service/NotificationService.js',
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Create Access Group'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Create Access Group'
+                    }
+                })
+
+                //userdashboard
+                .state("digi.userdashboard", {
+                    url: "/user/dashboard",
+                    templateUrl: 'app/components/digi/dashboard/user/UserDashboard.html',
+                    controller: 'digiUserDashboard',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_charts_peity',
+                                'lazy_tablesorter',
+                                'app/components/digi/dashboard/user/UserDashboard.js',
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'app/components/factory/DashboardReportModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'newNeta Dashboard 1'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Dashboard System & Process'
+                    }
+                })
+
+                .state("digi.productivityreport", {
+                    url: "/report/productivity",
+                    templateUrl: 'app/components/digi/dashboard/productivity/productivity-report.html',
+                    controller: 'digiProductivityReport',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/dashboard/productivity/ProductivityReportController.js',
+                                'app/components/factory/AttendanceModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'app/components/factory/DashboardReportModuleFactory.js',
+                                'lazy_KendoUI',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Productivity Report'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Productivity Report'
+                    }
+                })
+
+                .state("digi.createassignments", {
+                    url: "/create/assignment/one",
+                    templateUrl: 'app/components/digi/assignment/create/create-assignment/CreateAssignment.html',
+                    controller: 'digiCreateDetailAssignmentCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'app/components/digi/assignment/create/create-assignment/CreateAssignment.js',
+                                'app/components/factory/AssignmentModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'lazy_KendoUI',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Create Assignment'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Create Assignment'
+                    }
+                })
+
+                .state("digi.createassignmentDetail", {
+                    url: "/create/assignment/one/detail",
+                    templateUrl: 'app/components/digi/assignment/create/create-assignment-detail/CreateAssignmentDetail.html',
+                    controller: 'digiCreateDetailAssignmentDetailCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'app/components/digi/assignment/create/create-assignment-detail/CreateAssignmentDetail.js',
+                                'app/components/factory/AssignmentModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'lazy_KendoUI',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Create Assignment'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Create Assignment'
+                    }
+                })
+
+                .state("digi.viewassignments", {
+                    url: "/assignment/view",
+                    templateUrl: 'app/components/digi/assignment/view/ViewAssignment.html',
+                    controller: 'digiViewAssignmentsCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/assignment/view/ViewAssignment.js',
+                                'app/components/factory/AssignmentModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }],
+                    },
+                    data: {
+                        pageTitle: 'Search Assignment'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Search Assignment'
+                    }
+                })
+
+                .state("digi.viewDetailAssignments", {
+                    url: "/assignment/view/detail",
+                    templateUrl: 'app/components/digi/assignment/viewDetails/ViewDetailAssignment.html',
+                    controller: 'digiViewDetailAssignmentsCtrl',
+                    params: {
+                        id: '000',
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/assignment/viewDetails/ViewDetailAssignment.js',
+                                'app/components/factory/AssignmentModuleFactory.js',
+                                'app/components/service/NotificationService.js'
+
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'View Detail Assignment'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'View Detail Assignment'
+                    }
+                })
+
+                .state("digi.updateAssignment", {
+                    url: "/assignment/update",
+                    templateUrl: 'app/components/digi/assignment/update/UpdateAssignment.html',
+                    controller: 'digiUpdateAssignmentsCtrl',
+                    params: {
+                        id: '000',
+                    },
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'app/components/digi/assignment/update/UpdateAssignment.js',
+                                'app/components/factory/AssignmentModuleFactory.js',
+                                'app/components/factory/IntegrationModuleFactory.js',
+                                'app/components/factory/ConfigurationModuleFactory.js',
+                                'app/components/factory/UserManagementModuleFactory.js',
+                                'lazy_KendoUI',
+                                'app/components/service/NotificationService.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Re-Assignment'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Re-Assignment'
+                    }
+                })
+
+                .state("digi.listDetailMapping", {
+                    url: "/QrCode/detailMappingList",
+                    templateUrl: 'app/components/digi/QrCode/detailMapping/DetailMapping.html',
+                    controller: 'digiListMappingDetail',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'bower_components/angular-resource/angular-resource.min.js',
+                                'lazy_datatables',
+                                'app/components/digi/QrCode/detailMapping/DetailMapping.js',
+                                'app/components/factory/Qrfactory.js',
+                                'app/components/service/NotificationService.js',
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Mapping Qr Code'
+                    },
+                    ncyBreadcrumb: {
+                        label: 'Mapping Qr Code'
+                    }
+                })
+                
+
+        }
+    ]);
+
+
+    
+

@@ -1,0 +1,438 @@
+/*
+ *  Altair Admin AngularJS
+ */
+;"use strict";
+
+var altairApp = angular.module('altairApp', [
+    'ui.router',
+    'oc.lazyLoad',
+    'ngSanitize',
+    'ngRetina',
+    'ncy-angular-breadcrumb',
+    'ConsoleLogger',
+    'ngTable',
+    'angular-md5',
+    'ngMap',
+    'ngFileUpload',
+    'ngCookies',
+    'naif.base64'
+    // 'kendo.directives'
+]);
+
+altairApp.constant('variables', {
+    header_main_height: 48,
+    easing_swiftOut: [ 0.4,0,0.2,1 ],
+    bez_easing_swiftOut: $.bez([ 0.4,0,0.2,1 ])
+});
+
+
+
+altairApp.constant('ServerConfig', {
+    // development: 'http://'+'localhost:'+'11111',
+     development: 'http://'+'117.102.115.43:'+'11111',
+    //production: 'http://'+'10.21.224.135:'+'11111'
+     production: 'http://'+'117.102.115.43:',
+//    production: 'http://'+'localhost:',
+
+    port_agitmodule_access:30120,
+    port_agitmodule_configuration:30120,
+    port_agitmodule_location:30120,
+    port_agitmodule_organisation:30120,
+    port_agitmodule_user_management:30120,
+    port_agitmodule_security:30120,
+    port_agitmodule_attendance:30120,
+    port_agitmodule_assignment:30120,
+    port_agitmodule_news_event:30120,
+    port_agitmodule_dashboard_report:30120,
+    port_agitmodule_uk:30120,
+    port_agitmodule_integration:30120,
+    port_agitmodule_patroli:30120,
+
+    // port
+    //  port_agitmodule_access:30101,
+    // port_agitmodule_configuration:30102,
+    // port_agitmodule_location:30103,
+    // port_agitmodule_organisation:30104,
+    // port_agitmodule_user_management:30105,
+    // port_agitmodule_security:30120,
+    // port_agitmodule_attendance:30107,
+    // port_agitmodule_assignment:30108,
+    // port_agitmodule_news_event:30109,
+    // port_agitmodule_dashboard_report:30110,
+    // port_agitmodule_uk:30112,
+    // port_agitmodule_integration:30111,
+    // port_agitmodule_patroli:30113,
+});
+
+altairApp.constant('ServerProcess', {
+    // development: 'http://'+'localhost:'+'12346',
+    //   development: 'http://'+'10.21.224.128:'+'12346',
+     development: 'http://'+'117.102.115.43:'+'12346',
+   // production: 'http://'+'10.60.180.22:'+'12346'
+     production: 'http://'+'117.102.115.43:'+'12346'
+    // production: 'http://'+'localhost:'+'12346'
+    // production: 'http://'+'10.21.224.128:'+'12346'
+});
+
+
+altairApp.constant('USER_INFO', {
+    userId: '',
+    username: '',
+    password: '',
+    ipAddress: '',
+    macAddress: '',
+    name:'',
+    token: '',
+    series: '',
+    companyId:'',
+    companyName:'',
+    customerId:'',
+    customerName:'',
+    worklocationId:'',
+    worklocationName:''
+});
+
+altairApp.config(function($sceDelegateProvider) {
+    $sceDelegateProvider.resourceUrlWhitelist([
+        'self',
+        'https://www.youtube.com/**',
+        'https://w.soundcloud.com/**'
+    ]);
+});
+
+// breadcrumbs
+altairApp.config(function($breadcrumbProvider) {
+    $breadcrumbProvider.setOptions({
+        prefixStateName: 'restricted.dashboard',
+        templateUrl: 'app/templates/breadcrumbs.tpl.html'
+    });
+});
+
+altairApp.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+}
+]);
+
+altairApp.factory('SecurityModuleFactory', function ($http,$q, $log,ServerConfig,USER_INFO,$cookies) {
+    var service = {};
+
+    var response = {
+        success: false,
+        message: ''
+    };
+
+
+    //LOGIN METHOD
+    //-------------------------------------
+    var login_request = {
+        method: 'POST',
+        url: ServerConfig.production +ServerConfig.port_agitmodule_security + '/security/login',
+        data: USER_INFO,
+        headers: {"TOKEN-ID":"000","SERIES-ID":"000","OWNER-COMPANY-ID":"000"}
+    };
+
+    service.login = function(username,password) {
+        var deffered = $q.defer();
+        $log.info("LOGIN FACTORY");
+        USER_INFO.username = username;
+        USER_INFO.password = password;
+        // 
+        console.log(login_request);
+        $http(login_request).
+            success(function(data,status,headers) {
+
+               
+
+                
+            
+                console.log("HEDEARS TOKEN" + JSON.stringify(headers));
+                deffered.resolve(data);
+
+                USER_INFO.userId=data.userid;
+                USER_INFO.name=data.userProfile.name;
+                USER_INFO.companyId=data.userProfile.companyId;
+                USER_INFO.companyName=data.userProfile.companyName;
+                USER_INFO.customerId=data.userProfile.customerId;
+                USER_INFO.customerName=data.userProfile.customerName;
+                USER_INFO.worklocationId=data.userProfile.siteId;
+                USER_INFO.worklocationName=data.userProfile.siteName;
+
+                $cookies.put('username', username);
+                // $cookies.put('username2',username);
+                $cookies.put('userid', data.userid);
+                $cookies.put('name', data.userProfile.name);
+                $cookies.put('companyId', data.userProfile.companyId);
+                $cookies.put('companyName', data.userProfile.companyName);
+                $cookies.put('worklocationId', data.userProfile.siteId);
+                $cookies.put('worklocationName', data.userProfile.siteName);
+
+
+                // var date = new Date();
+                // var expireTime = date.getTime() + 5000 // 5 seconds
+                
+                // $cookies.put('username2',username,{
+                //     expires: exp
+                // });
+
+                console.log("wewwww"+$cookies.get('username2'));
+                //console.log(r);
+               
+            }).error(function(data,status){
+                $log.error(status);
+            });
+        return deffered.promise;
+    };
+    /*
+     function SetCredentialsServer(username, password, grantedAuths, tokenid, seriesid, rememberMeTime, orgId) {
+     $cookieStore.put(SecurityToken.securityEncode('username'),SecurityToken.securityEncode(username));
+     $cookieStore.put(SecurityToken.securityEncode('tokenid'),SecurityToken.securityEncode(SecurityToken.encodeKey(tokenid)));
+     $cookieStore.put(SecurityToken.securityEncode('seriesid'),SecurityToken.securityEncode(seriesid));
+     $cookieStore.put(SecurityToken.securityEncode('authdata'),SecurityToken.securityEncode(username + ':' + password));
+     $cookieStore.put(SecurityToken.securityEncode('grantedAuths'),grantedAuths);
+     $cookieStore.put(SecurityToken.securityEncode('isAuthenticated'),SecurityToken.securityEncode('true'));
+     $cookieStore.put(SecurityToken.securityEncode('rememberMeTime'),SecurityToken.securityEncode(''+rememberMeTime));
+     if (angular.isUndefined(orgId)) {
+
+     } else if (orgId === 'null') {
+
+     } else {
+     $cookieStore.put(SecurityToken.securityEncode('orgid'),SecurityToken.securityEncode(orgId));
+     }
+
+     };*/
+
+    //GET MENU
+    //-------------------------------------
+    // url: ServerConfig.production + ServerConfig.port_agitmodule_security + '/get/menu/',
+    var menu_request = {
+        method: 'GET',
+        url: ServerConfig.production + ServerConfig.port_agitmodule_security + '/security/get/menu/',
+        headers: {USERNAME:''},
+        params:{}
+    };
+
+    service.getMenu = function(username) {
+        var deffered = $q.defer();
+      
+        $cookies.put('username', username);
+        var s=$cookies.get('username');
+          
+
+
+        menu_request.headers.USERNAME = username;
+        
+        $http(menu_request).
+            success(function(data,status,headers) {
+                deffered.resolve(data);
+               
+            }).error(function(data,status){
+                $log.error(status);
+            });
+        return deffered.promise;
+    };
+
+    return service;
+
+});
+
+altairApp.factory('CommonService', function () {
+    var headInfo = [];
+    return {
+        SetData: function (key, data) {
+            headInfo[key] = data;
+        },
+        GetData: function (key) {
+            return headInfo[key];
+        }
+    }
+});
+
+altairApp.factory('ReconstructMenu', function (CommonService,$rootScope,$timeout,$log) {
+
+    return {
+        Init: function () {
+            $timeout(function() {
+                try {
+
+                   
+    
+                   
+                    var test_data_service = CommonService.GetData('menuSideBar');
+                    if (test_data_service != null) {
+                        $rootScope.$broadcast('menuSideBar', test_data_service);
+                    }
+                }
+                catch(err) {
+                    $log.error(err);
+                }
+            }, 500);
+        }
+    }
+});
+
+
+/* Run Block */
+altairApp
+    .run(['$rootScope','$state','$stateParams','$http','$window','$timeout','variables','$log','$cookies','$location','CommonService','SecurityModuleFactory','ReconstructMenu',
+        function ($rootScope, $state, $stateParams,$http,$window, $timeout,variables,$log,$cookies,$location,CommonService,SecurityModuleFactory,ReconstructMenu) {
+            $rootScope.$state = $state;
+            $rootScope.$stateParams = $stateParams;
+
+            $rootScope.$on('$stateChangeSuccess', function () {
+
+                // scroll view to top
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 200);
+
+                $timeout(function() {
+                    $rootScope.pageLoading = false;
+                    // reinitialize uikit components
+                    //$.UIkit.init($('body'));
+                    //$($window).resize();
+                },300);
+
+                $timeout(function() {
+                    $rootScope.pageLoaded = true;
+                    $rootScope.appInitialized = true;
+                    // wave effects
+                    $window.Waves.attach('.md-btn-wave,.md-fab-wave', ['waves-button']);
+                    $window.Waves.attach('.md-btn-wave-light,.md-fab-wave-light', ['waves-button', 'waves-light']);
+
+                    // IE fixes
+                    if (typeof window.isLteIE9 != 'undefined') {
+                        $('svg,canvas,video').each(function() {
+                            var $this = $(this),
+                                height = $(this).attr('height');
+                            if(height) {
+                                $this.css('height', height);
+                            }
+                            if($this.hasClass('peity')) {
+                                $this.prev('span').peity()
+                            }
+                        });
+                    }
+                },600);
+            });
+
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                var location = $location.url();
+
+                if (location == '/login') {
+                    //console.log('it is in new neta login path');
+                } else {
+                    var isAuthenticated = $cookies.get('isAuthenticated');
+
+                    console.log("isAuthenticated+" + $cookies.get('isAuthenticated'));
+
+                    if (isAuthenticated == 1) {
+                        console.log('authenticatred is 1');
+                        $cookies.put('isAuthenticated',2);
+                        $location.path('/dashboard1');
+                    } else if (isAuthenticated == 0) {
+                        //console.log('authenticatred is 0');
+                        $location.path('/login');
+                    } else if (isAuthenticated == 2) {
+                        console.log('isAuth is 2');
+                        var menu_scope = ''+$rootScope.sections;
+                        //console.log('menu_scope length : '+menu_scope.length);
+                        if (menu_scope == 'undefined') {
+                            //console.log('it is undefined, data : ' + JSON.stringify(menu_scope));
+                            var success_login = function(data) {
+                                //console.log('request menu success');
+                                //console.log('username : '+$cookies.get('username'));
+                                $timeout(function() {
+                                    // ini harusnya bisa di broadcast cuma kagak tau kenapa kagak muncul menunya, hahahahaha......//TODO banget ini mah
+                                    $rootScope.$broadcast('menuSideBar', data);
+                                    CommonService.SetData('menuSideBar', data);
+
+                                    console.log("smentara diredirect ke dashboard 1 dulu");
+                                    //$scope.$state = $state;
+                                    //console.log('current state : '+$location.url());
+                                    //$state.go('newneta.dashboar1');
+                                }, 1);
+                                //$rootScope.$broadcast('menuSideBar', data);
+
+                            };
+                            var error_login = function(data) {
+                                console.log('request menu failed');
+                            };
+
+                            var user_info=$cookies.get('username');
+                            $log.info("user_info: "+user_info);
+
+                            console.log('username');
+                            if(user_info!=undefined && user_info!=''){
+                                SecurityModuleFactory.getMenu(user_info).then(success_login,error_login);
+                            } else {
+                                $location.path('/login');
+                            }
+
+                        }
+                        /**/
+                    }
+                }
+
+
+
+                /*if ($rootScope.loggedInUser == null) {
+                 $location.path("/newneta_login");
+                 }*/
+
+                // main search
+                $rootScope.mainSearchActive = false;
+                // secondary sidebar
+                $rootScope.sidebar_secondary = false;
+                $rootScope.secondarySidebarHiddenLarge = false;
+
+                if($($window).width() < 1220 ) {
+                    // hide primary sidebar
+                    $rootScope.primarySidebarActive = false;
+                    $rootScope.hide_content_sidebar = false;
+                }
+                if(!toParams.hasOwnProperty('hidePreloader')) {
+                    $rootScope.pageLoading = true;
+                    $rootScope.pageLoaded = false;
+                }
+
+            });
+
+            // fastclick (eliminate the 300ms delay between a physical tap and the firing of a click event on mobile browsers)
+            FastClick.attach(document.body);
+
+            // get version from package.json
+            $http.get('./package.json').success(function(response) {
+                $rootScope.appVer = response.version;
+            });
+
+            // modernizr
+            $rootScope.Modernizr = Modernizr;
+
+            // get window width
+            var w = angular.element($window);
+            $rootScope.largeScreen = w.width() >= 1220;
+
+            w.on('resize', function() {
+                return $rootScope.largeScreen = w.width() >= 1220;
+            });
+
+            // show/hide main menu on page load
+            $rootScope.primarySidebarOpen = ($rootScope.largeScreen) ? true : false;
+
+            $rootScope.pageLoading = true;
+
+            // wave effects
+            $window.Waves.init();
+
+        }
+    ])
+    .run([
+        'PrintToConsole',
+        function(PrintToConsole) {
+            // app debug
+            PrintToConsole.active = false;
+        }
+    ])
+;
+

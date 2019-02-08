@@ -1,0 +1,33 @@
+<div class="md-card-content">
+    <!--<h3 class="heading_a">Pilih Hari</h3>-->
+    <div class="uk-alert uk-alert-warning" data-uk-alert ng-show="notification.errorMsg">
+        <a href="#" class="uk-alert-close uk-close"></a>
+        Mohon isi semua pilihan!
+    </div>
+    <form id="form_validation" class="uk-form-stacked">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-4">
+                <span class="uk-form-help-block">Tahun</span>
+                <input type="text" config="selectize_a_config" options="listYears" ng-model="selectedYear" name="selectedYear" selectize />
+            </div>
+            <div class="uk-width-medium-1-4">
+                <span class="uk-form-help-block">Bulan</span>
+                <input type="text" config="selectize_a_config" options="listMonth" ng-model="selectedMonth" name="selectedMonth" selectize />
+            </div>
+            <div class="uk-width-medium-1-4">
+                <span class="uk-form-help-block">Host ID</span>
+                <input type="text" config="selectize_a_config" options="listFileId" ng-model="selectedFileId" name="selectedFileId" selectize />
+            </div>
+            <div class="uk-width-medium-1-4">
+                <span class="uk-form-help-block">Target</span>
+                <input type="text" config="selectize_a_config" options="listDataName" ng-model="selectedTarget" name="selectedTarget" selectize />
+            </div>
+        </div>
+        <div class="uk-grid">
+            <div class="uk-width-1-1">
+                <button class="md-btn md-btn-primary" type="button" ng-click="submit(selectedYear,selectedMonth,selectedFileId,selectedTarget)" data-uk-button>Search</button>
+            </div>
+        </div>
+    </form>
+
+</div>

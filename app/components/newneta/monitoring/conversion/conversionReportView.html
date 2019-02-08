@@ -1,0 +1,26 @@
+<div id="page_content">
+    <div id="top_bar">
+        <div ncy-breadcrumb></div>
+    </div>
+    <div id="page_content_inner">
+        <div class="md-card uk-margin-medium-bottom">
+            <div class="md-card-content" ng-controller="conversionReportCtrl as vm">
+                <div class="row">
+                    <table id="entity-grid" datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="uk-table" cellspacing="0" width="100%">
+                        <tfoot>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Step Name</th>
+                            <th>Converted Record</th>
+                            <th>Valid Record</th>
+                            <th>Elapsed Time</th>
+                        </tr>
+                        </tfoot>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

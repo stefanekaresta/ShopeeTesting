@@ -1,0 +1,52 @@
+<div id="page_content">
+
+    <div id="top_bar">
+        <div ncy-breadcrumb></div>
+    </div>
+    <br/>
+    <br/>
+    <div id="page_content_inner" ng-controller="agentMonitoringCtrl">
+        <h3 class="heading_b uk-margin-bottom">List Data Processed</h3>
+        <div class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+            <div class="uk-width-large-10-10">
+                <div class="md-card">
+                    <div class="md-card-content">
+                        <table class="uk-table uk-table-striped">
+                            <thead>
+                            <tr>
+                                <td align="center" class="uk-width-2-10">File Name</td>
+                                <td align="center" class="uk-width-2-10">Status</td>
+                                <td align="center" class="uk-width-2-10">Agent ID</td>
+                                <td align="center" class="uk-width-2-10">Start By</td>
+                                <td align="center" class="uk-width-2-10">Process Date</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in listData">
+                                <td class="uk-text-center">{{item.filenameInput}}</td>
+                                <td class="uk-text-center" ng-if="item.status == '0'" ><span class="uk-badge uk-badge-warning">Waiting</span></td>
+                                <td class="uk-text-center" ng-if="item.status == '1'" ><span class="uk-badge uk-badge-success">Done</span></td>
+                                <td class="uk-text-center" ng-if="item.status == '2'" ><span class="uk-badge">In Progress</span></td>
+                                <td class="uk-text-center" ng-if="item.status == '4'" ><span class="uk-badge uk-badge-danger">Error</span></td>
+                                <td class="uk-text-center">{{item.agentId}}</td>
+                                <td class="uk-text-center">{{item.startBy}}</td>
+                                <td class="uk-text-center">{{item.processDate | date:'MM/dd/yyyy @ h:mma' }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-small-1-2">
+                <div class="md-card-content">
+                    <div class="md-fab-wrapper md-fab-in-card md-fab-speed-dial-horizontal">
+                        <a class="md-fab md-fab-danger" href="javascript:void(0)"><i class="material-icons" ui-sref="newneta.monitoring.app_process" data-uk-tooltip title="Back To Agent Process">&#xE166;</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

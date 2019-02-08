@@ -1,0 +1,154 @@
+<div id="page_content">
+    <div id="top_bar">
+        <div ncy-breadcrumb></div>
+    </div>
+    <br/>
+    <br/>
+    <div id="page_content_inner">
+        <h3 class="heading_b uk-margin-bottom">Collection Report</h3>
+
+        <div class="md-card">
+            <div class="md-card-content" ng-controller="collectionReportingCtrl as colreport">
+
+                <!--  <div class="uk-width-medium-1-1">
+
+                      <div class="uk-overflow-container">
+                          <table class="uk-table uk-table-striped">
+                              <thead>
+                              <tr>
+                                  &lt;!&ndash;<td width="14%" align="center"><b><strong>Tanggal</strong></b></td>&ndash;&gt;
+                                  <td width="14%" align="center" ng-repeat="dataRep in listDataRep">
+                                      <b><strong>{{dataRep}}</strong></b>
+                                  </td>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr class="uk-table-middle" ng-repeat="days in listDays">
+
+                                  <td width="14%" align="center">{{days}}</td>
+                                  <td width="14%" align="center" ng-click="showDetail(test_data[days],'input')" ><a href="">{{test_data[days].input}}</a></td>
+
+                                  &lt;!&ndash; choose for collect &ndash;&gt;
+                                  <td width="14%" align="center" ng-click="showDetail(test_data[days],'collect')" ng-if="test_data[days].input == test_data[days].collect"><a href="">{{test_data[days].collect}}</a></td>
+                                  <td width="14%" bgcolor="#FF0000" align="center" ng-click="showDetail(test_data[days],'collect')" ng-if="test_data[days].input != test_data[days].collect"><a href="">{{test_data[days].collect}}</a></td>
+
+                                  &lt;!&ndash; choose for waiting &ndash;&gt;
+                                  <td width="14%" align="center" ng-click="showDetail(test_data[days],'waiting')" ng-if="test_data[days].waiting != 0 " ><a href="">{{test_data[days].waiting}}</a></td>
+                                  <td width="14%" align="center" ng-if="test_data[days].waiting == 0 " >{{test_data[days].waiting}}</td>
+
+                                  &lt;!&ndash; choose for onProcess &ndash;&gt;
+                                  <td width="14%" align="center" ng-click="showDetail(test_data[days],'onProcess')" ng-if="test_data[days].onProcess != 0 "><a href="">{{test_data[days].onProcess}}</a></td>
+                                  <td width="14%" align="center" ng-if="test_data[days].onProcess == 0 " >{{test_data[days].onProcess}}</td>
+
+                                  &lt;!&ndash; choose for finished &ndash;&gt;
+                                  <td width="14%" align="center" ng-click="showDetail(test_data[days],'finished')" ng-if="test_data[days].finised != 0 "><a href="">{{test_data[days].finised}}</a></td>
+                                  <td width="14%" align="center" ng-if="test_data[days].finised == 0 " >{{test_data[days].finised}}</td>
+
+                                  &lt;!&ndash; choose for error&ndash;&gt;
+                                  <td width="14%" align="center" ng-click="showDetail(test_data[days],'error')"  ng-if="test_data[days].error == 0" >{{test_data[days].error}}</td>
+                                  <td width="14%" bgcolor="#FF0000" align="center" ng-click="showDetail(test_data[days],'error')" ng-if="test_data[days].error > 0" ><a href="">{{test_data[days].error}}</a></td>
+
+                              </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+
+  -->
+
+                <div class="row">
+
+                        <table class="uk-table" cellspacing="0" width="100%">
+
+                            <tr>
+                                <th class="uk-text-center">Filename Input</th>
+                                <!--<th>filenameOutput</th>-->
+                                <th class="uk-text-center">Step Name</th>
+                                <th class="uk-text-center">status</th>
+                                <!--<th>fileChecksum</th>
+                                <th>fileSizeLocal</th>
+                                <th>fileSizeRemote</th>
+                                <th>processTimeStart</th>
+                                <th>processTimeEnd</th>
+                                <th>elapsedTime</th>-->
+                            </tr>
+
+                            <tbody>
+                            <tr ng-repeat="item in dataResult">
+                                <td class="uk-text-center">{{item.filenameInput}}</td>
+                                <!--<td>{{item.filenameOutput}}</td>-->
+                                <td class="uk-text-center">{{item.stepName}}</td>
+                                <td class="uk-text-center" ng-if="item.fileSizeLocal == item.fileSizeRemote"><i class="material-icons md-36 uk-text-success">&#xE876;</i></td>
+                                <td class="uk-text-center" ng-if="item.fileSizeLocal != item.fileSizeRemote"><i class="material-icons md-36 uk-text-danger">&#xE888;</i></td>
+                                <!--<td>{{item.fileChecksum}}</td>-->
+                                <!--<td align="center" ng-if="item.fileSizeLocal == item.fileSizeRemote"><i class="material-icons md-36 uk-text-success">&#xE876;</i></td>
+                                <td align="center" ng-if="item.fileSizeLocal != item.fileSizeRemote"><i class="material-icons md-36 uk-text-danger">&#xE888;</i></td>
+                                <td>{{(item.fileSizeLocal/(1024*1024) | number:2)*1}} MB</td>
+                                <td>{{(item.fileSizeRemote/(1024*1024) | number:2)*1}} MB</td>
+                                <td>{{item.processTimeStart | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                                <td>{{item.processTimeEnd | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                                <td>{{item.elapsedTime}}</td>-->
+                            </tr>
+                            <!-- <tr>
+                                 <th>File Name Input</th>
+                             </tr>-->
+                            </tfoot>
+                            <tbody></tbody>
+                        </table>
+
+                    <div id="exportable" style="display:none">
+                        <table class="uk-table" cellspacing="0" width="100%" border="1">
+
+                            <tr>
+                                <th>Filename Input</th>
+                                <!--<th>Filename Output</th>-->
+                                <!--<th>Step Name</th>-->
+                                <!--<th>status</th>-->
+                                <th>Checksum</th>
+                                <th>File Size Local</th>
+                                <th>File Size Remote</th>
+                                <th>Process Time Start</th>
+                                <th>Process Time End</th>
+                                <th>Elapsed Time</th>
+                            </tr>
+
+                            <tbody>
+                            <tr ng-repeat="item in dataResult">
+                                <td>{{item.filenameInput}}</td>
+                                <!--<td>{{item.filenameOutput}}</td>-->
+                                <!--<td>{{item.stepName}}</td>-->
+                                <!--<td align="center" ng-if="item.fileSizeLocal == item.fileSizeRemote"><i class="material-icons md-36 uk-text-success">&#xE876;</i></td>
+                                <td align="center" ng-if="item.fileSizeLocal != item.fileSizeRemote"><i class="material-icons md-36 uk-text-danger">&#xE888;</i></td>
+                                -->
+                                <td>{{item.checksum}}</td>
+                                <!--<td align="center" ng-if="item.fileSizeLocal == item.fileSizeRemote"><i class="material-icons md-36 uk-text-success">&#xE876;</i></td>
+                                <td align="center" ng-if="item.fileSizeLocal != item.fileSizeRemote"><i class="material-icons md-36 uk-text-danger">&#xE888;</i></td>
+                                -->
+                                <td>{{(item.fileSizeLocal/(1024*1024) | number:2)*1}} MB</td>
+                                <td>{{(item.fileSizeRemote/(1024*1024) | number:2)*1}} MB</td>
+                                <td>{{item.processTimeStart | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                                <td>{{item.processTimeEnd | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                                <td>{{item.elapsedTime}}</td>
+                            </tr>
+                            <!-- <tr>
+                                 <th>File Name Input</th>
+                             </tr>-->
+                            </tfoot>
+                            <tbody></tbody>
+                        </table>
+                </div>
+
+                <table id="entity-grid" ng-show="false" datatable="" dt-options="colreport.dtOptions" dt-columns="colreport.dtColumns" class="uk-table" cellspacing="0" width="100%">
+                </table>
+
+                <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                        <button class="md-btn md-btn-primary" type="button" ng-click="generateReport()" data-uk-button>Generate Report</button>
+                        <!--ng-click="submit(selectedYear,selectedMonth,selectedFileId)"-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

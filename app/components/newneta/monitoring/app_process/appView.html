@@ -1,0 +1,91 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <h3 class="heading_b uk-margin-bottom">Application Process Monitoring</h3>
+
+        <div class="uk-grid" data-uk-grid-margin data-uk-grid-match="{target:'.md-card-content'}">
+            <div class="uk-width-medium-1-1">
+                <div class="md-card">
+                    <div class="md-card-content">
+                        <h3 class="heading_b uk-margin-bottom">Scheduled Agent List</h3>
+                        <div class="uk-overflow-container">
+                            <table class="uk-table uk-table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="uk-width-2-10">Agent Name</th>
+                                    <th class="uk-width-2-10 uk-text-center">Running Status</th>
+                                    <!--<th class="uk-width-1-10 uk-text-center">Note</th>-->
+                                    <th class="uk-width-1-10 uk-text-center">Start Time</th>
+                                    <th class="uk-width-1-10 uk-text-center">End Time</th>
+                                    <th class="uk-width-1-10 uk-text-center">Start By</th>
+                                    <th class="uk-width-1-10 uk-text-center">Stop By</th>
+                                    <th class="uk-width-2-10 uk-text-center">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in dataList">
+                                    <td class="uk-text-left">{{item.agentName}}</td>
+                                    <td class="uk-text-center" ng-if="item.running == true" ><span class="uk-badge uk-badge-success">RUNNING</span></td>
+                                    <td class="uk-text-center" ng-if="item.running == false"><span class="uk-badge uk-badge-danger">STOP</span></td>
+                                    <!--<td class="uk-text-center">{{item.note}}</td>-->
+                                    <td class="uk-text-center">{{item.startTime | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                                    <td class="uk-text-center">{{item.endTime | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                                    <td class="uk-text-center">{{item.startBy}}</td>
+                                    <td class="uk-text-center">{{item.stopBy}}</td>
+                                    <td class="uk-text-center" ng-if="item.agentName == 'AGENT_PROCESS'">
+                                        <a ng-if="item.running == false" ng-click="actionUpdateButton(item.agentName,'start')" data-uk-tooltip title="Start Agent Process"><i class="md-icon material-icons uk-text-primary">play_arrow</i></a>
+                                        <a ng-if="item.running == true" ng-click="actionUpdateButton(item.agentName,'stop')" data-uk-tooltip title="Stop Agent Process"><i class="md-icon material-icons uk-text-danger" >stop</i></a>
+                                    </td>
+                                    <td class="uk-text-center" ng-if="item.agentName == 'AGENT_COLLECT'">
+                                        <a ng-click="actionShowError()" data-uk-tooltip title="Check Error"><i class="md-icon material-icons uk-text-primary">&#xE873;</i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-width-medium-1-1">
+                <div class="md-card">
+                    <div class="md-card-content">
+                        <h3 class="heading_b uk-margin-bottom">Manual Agent List</h3>
+                        <div class="uk-overflow-container">
+                            <table class="uk-table uk-table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="uk-width-2-10">Agent Name</th>
+                                    <th class="uk-width-2-10 uk-text-center">Running Status</th>
+                                    <!--<th class="uk-width-1-10 uk-text-center">Note</th>-->
+                                    <th class="uk-width-1-10 uk-text-center">Start Time</th>
+                                    <th class="uk-width-1-10 uk-text-center">End Time</th>
+                                    <th class="uk-width-1-10 uk-text-center">Start By</th>
+                                    <th class="uk-width-1-10 uk-text-center">Agent ID</th>
+                                    <!--<th class="uk-width-1-10 uk-text-center">Stop By</th>-->
+                                    <th class="uk-width-2-10 uk-text-center">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in dataListManual">
+                                    <td class="uk-text-left">{{item.agentName}}</td>
+                                    <td class="uk-text-center" ng-if="item.running == true" ><span class="uk-badge uk-badge-success">RUNNING</span></td>
+                                    <td class="uk-text-center" ng-if="item.running == false"><span class="uk-badge uk-badge-danger">STOP</span></td>
+                                    <!--<td class="uk-text-center">{{item.note}}</td>-->
+                                    <td class="uk-text-center">{{item.startTime | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                                    <td class="uk-text-center">{{item.endTime | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                                    <td class="uk-text-center">{{item.startBy}}</td>
+                                    <td class="uk-text-center">{{item.agentId}}</td>
+                                    <!--<td class="uk-text-center">{{item.stopBy}}</td>-->
+                                    <td class="uk-text-center">
+                                        <a ng-if="item.running == false" ng-click="actionProcessManual(item.agentName)" data-uk-tooltip title="Process Agent Manual"><i class="md-icon material-icons uk-text-primary">&#xE873;</i></a>
+                                        <a ng-if="item.running == true" ui-sref="newneta.monitoring.process_info({action:item.agentName,agentId:item.agentId})" data-uk-tooltip title="Information Processed Data"><i class="md-icon material-icons uk-text-primary">&#xE88F;</i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="md-card-content">
+    <div class="uk-grid" data-uk-grid-margin data-uk-grid-match="{target:'.md-card-content'}">
+        <div class="uk-width-medium-1-1">
+            <div class="uk-overflow-container">
+                <table class="uk-table uk-table-striped">
+                    <thead>
+                    <tr>
+                        <td width="3%" align="center" class="uk-text-nowrap"><b><strong>Tanggal</strong></b></td>
+                        <td width="3%" align="center" class="uk-text-nowrap" ng-repeat="hours in listHours">
+                            <b><strong>{{hours}}</strong></b>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="uk-table-middle" ng-repeat="days in listDays">
+                        <td width="3%" align="center">{{days}}</td>
+                        <td width="3%" align="center" ng-repeat="hours in listHours" ng-show="test_data[days][hours].count > 0" ng-click="showDetail(test_data[days][hours])"><a href="">{{test_data[days][hours].count}}</a></td>
+                        <td width="3%" align="center" ng-repeat="hours in listHours" bgcolor="#FF0000"  ng-show="test_data[days][hours].count == 0" ng-click="showDetail(test_data[days][hours])">{{test_data[days][hours].count}}</td>
+                        <td width="3%" align="center" ng-repeat="hours in listHours" bgcolor="#FF0000"  ng-show="angular.isUndefined(test_data[days][hours].count)" ng-click="showDetail(test_data[days][hours])">{{test_data[days][hours].count}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

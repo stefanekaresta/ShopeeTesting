@@ -1,0 +1,32 @@
+body {
+  font-family: monospace;
+}
+
+body > div {
+  font-size: 50px;
+  width: 10ch;
+  overflow: hidden;
+}
+
+div div {
+  -webkit-animation: randomGen 2s steps(30) infinite;
+          animation: randomGen 2s steps(30) infinite;
+}
+
+@-webkit-keyframes randomGen {
+  100% {
+    -webkit-transform: translateX(-3000%);
+            transform: translateX(-3000%);
+  }
+}
+
+@keyframes randomGen {
+  100% {
+    -webkit-transform: translateX(-3000%);
+            transform: translateX(-3000%);
+  }
+}
+#pause:checked ~ div div {
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}

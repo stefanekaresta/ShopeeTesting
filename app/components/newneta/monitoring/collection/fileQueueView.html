@@ -1,0 +1,31 @@
+<div id="page_content">
+    <div id="top_bar">
+        <div ncy-breadcrumb></div>
+    </div>
+
+    <div id="page_content_inner">
+        <h3 class="heading_b uk-margin-bottom">File Queue List</h3>
+
+        <div class="md-card uk-margin-medium-bottom">
+            <div class="md-card-content" ng-controller="fileQueueCtrl as vm">
+                <div class="row">
+                    <table id="entity-grid" datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="uk-table" cellspacing="0" width="100%">
+                        <tfoot>
+                        <tr>
+                            <th>File Name Input</th>
+                            <th>File ID</th>
+                            <th>File Type ID</th>
+                            <th>Checksum</th>
+                            <th>Next Job</th>
+                            <th>For Sorting</th>
+                            <th>Status</th>
+                        </tr>
+                        </tfoot>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

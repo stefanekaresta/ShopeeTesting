@@ -1,0 +1,47 @@
+<div class="md-card-content">
+    <div class="uk-grid" data-uk-grid-margin data-uk-grid-match="{target:'.md-card-content'}" ng-show="notification.mainTable">
+        <div class="uk-width-medium-1-1">
+
+            <div class="uk-overflow-container">
+                <table class="uk-table uk-table-striped">
+                    <thead>
+                    <tr>
+                        <td width="14%" align="center"><b><strong>Tanggal</strong></b></td>
+                        <td width="14%" align="center" ng-repeat="dataRep in listDataRep">
+                            <b><strong>{{dataRep}}</strong></b>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="uk-table-middle" ng-repeat="days in listDays">
+
+                        <td width="14%" align="center">{{days}}</td>
+                        <td width="14%" align="center" ng-click="showDetail(test_data[days],'input')" ><a href="">{{test_data[days].input}}</a></td>
+
+                        <!-- choose for collect -->
+                        <td width="14%" align="center" ng-click="showDetail(test_data[days],'collect')" ng-if="test_data[days].input == test_data[days].collect"><a href="">{{test_data[days].collect}}</a></td>
+                        <td width="14%" bgcolor="#FF0000" align="center" ng-click="showDetail(test_data[days],'collect')" ng-if="test_data[days].input != test_data[days].collect"><a href="">{{test_data[days].collect}}</a></td>
+
+                        <!-- choose for waiting -->
+                        <td width="14%" align="center" ng-click="showDetail(test_data[days],'waiting')" ng-if="test_data[days].waiting != 0 " ><a href="">{{test_data[days].waiting}}</a></td>
+                        <td width="14%" align="center" ng-if="test_data[days].waiting == 0 " >{{test_data[days].waiting}}</td>
+
+                        <!-- choose for onProcess -->
+                        <td width="14%" align="center" ng-click="showDetail(test_data[days],'onProcess')" ng-if="test_data[days].onProcess != 0 "><a href="">{{test_data[days].onProcess}}</a></td>
+                        <td width="14%" align="center" ng-if="test_data[days].onProcess == 0 " >{{test_data[days].onProcess}}</td>
+
+                        <!-- choose for finished -->
+                        <td width="14%" align="center" ng-click="showDetail(test_data[days],'finished')" ng-if="test_data[days].finised != 0 "><a href="">{{test_data[days].finised}}</a></td>
+                        <td width="14%" align="center" ng-if="test_data[days].finised == 0 " >{{test_data[days].finised}}</td>
+
+                        <!-- choose for error-->
+                        <td width="14%" align="center" ng-click="showDetail(test_data[days],'error')"  ng-if="test_data[days].error == 0" >{{test_data[days].error}}</td>
+                        <td width="14%" bgcolor="#FF0000" align="center" ng-click="showDetail(test_data[days],'error')" ng-if="test_data[days].error > 0" ><a href="">{{test_data[days].error}}</a></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

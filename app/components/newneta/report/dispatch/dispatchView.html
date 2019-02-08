@@ -1,0 +1,109 @@
+<div id="page_content">
+    <div id="top_bar">
+        <div ncy-breadcrumb></div>
+    </div>
+    <div id="page_content_inner">
+        <h3 class="heading_b uk-margin-bottom">Dispatch Report</h3>
+
+        <div class="md-card">
+            <div class="md-card-content" ng-controller="dispatchReportingCtrl as dispatchreport">
+
+                <div class="row">
+                    <table class="uk-table" cellspacing="0" width="100%">
+
+                        <tr>
+                            <th>Filename Input</th>
+                            <!--<th>filenameOutput</th>-->
+                            <th>Step Name</th>
+                            <th>status</th>
+                            <!--<th>fileChecksum</th>
+                            <th>fileSizeLocal</th>
+                            <th>fileSizeRemote</th>
+
+                            <th>processTimeStart</th>
+                            <th>processTimeEnd</th>
+                            <th>elapsedTime</th>-->
+                        </tr>
+
+                        <tbody>
+                        <tr ng-repeat="item in dataResult">
+                            <td>{{item.filenameInput}}</td>
+                            <!--<td>{{item.filenameOutput}}</td>-->
+                            <td>{{item.stepName}}</td>
+                            <td align="center" ng-if="item.fileSizeLocal == item.fileSizeRemote"><i class="material-icons md-36 uk-text-success">&#xE876;</i></td>
+                            <td align="center" ng-if="item.fileSizeLocal != item.fileSizeRemote"><i class="material-icons md-36 uk-text-danger">&#xE888;</i></td>
+
+
+                            <!--<td>{{item.fileChecksum}}</td>-->
+                            <!--<td align="center" ng-if="item.fileSizeLocal == item.fileSizeRemote"><i class="material-icons md-36 uk-text-success">&#xE876;</i></td>
+                            <td align="center" ng-if="item.fileSizeLocal != item.fileSizeRemote"><i class="material-icons md-36 uk-text-danger">&#xE888;</i></td>
+                            <td>{{(item.fileSizeLocal/(1024*1024) | number:2)*1}} MB</td>
+                            <td>{{(item.fileSizeRemote/(1024*1024) | number:2)*1}} MB</td>
+                            <td>{{item.processTimeStart | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                            <td>{{item.processTimeEnd | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                            <td>{{item.elapsedTime}}</td>-->
+                        </tr>
+                        <!-- <tr>
+                             <th>File Name Input</th>
+                         </tr>-->
+                        </tfoot>
+                        <tbody></tbody>
+                    </table>
+                    <div id="exportable" style="display:none">
+                        <table class="uk-table" cellspacing="0" width="100%" border="1">
+
+                            <tr>
+                                <th>Filename Input</th>
+                                <th>Filename Output</th>
+                                <!--<th>Step Name</th>-->
+                                <!--<th>status</th>-->
+                                <th>File Checksum</th>
+                                <th>File Size Local</th>
+                                <th>File Size Remote</th>
+                                <th>Process Time Start</th>
+                                <th>Process Time End</th>
+                                <th>Elapsed Time</th>
+                            </tr>
+
+                            <tbody>
+                            <tr ng-repeat="item in dataResult">
+                                <td>{{item.filenameInput}}</td>
+                                <td>{{item.filenameOutput}}</td>
+                                <!--<td>{{item.stepName}}</td>-->
+                                <!--<td align="center" ng-if="item.fileSizeLocal == item.fileSizeRemote"><i class="material-icons md-36 uk-text-success">&#xE876;</i></td>
+                                <td align="center" ng-if="item.fileSizeLocal != item.fileSizeRemote"><i class="material-icons md-36 uk-text-danger">&#xE888;</i></td>
+                                -->
+                                <td>{{item.fileChecksum}}</td>
+                                <!--<td align="center" ng-if="item.fileSizeLocal == item.fileSizeRemote"><i class="material-icons md-36 uk-text-success">&#xE876;</i></td>
+                                <td align="center" ng-if="item.fileSizeLocal != item.fileSizeRemote"><i class="material-icons md-36 uk-text-danger">&#xE888;</i></td>
+                                -->
+                                <td>{{(item.fileSizeLocal/(1024*1024) | number:2)*1}} MB</td>
+                                <td>{{(item.fileSizeRemote/(1024*1024) | number:2)*1}} MB</td>
+                                <td>{{item.processTimeStart | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                                <td>{{item.processTimeEnd | date:"dd/MM/yyyy 'at' HH:mm:ss"}}</td>
+                                <td>{{item.elapsedTime}}</td>
+                            </tr>
+                            <!-- <tr>
+                                 <th>File Name Input</th>
+                             </tr>-->
+                            </tfoot>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <table id="entity-grid" ng-show="false" datatable="" dt-options="dispatchreport.dtOptions" dt-columns="dispatchreport.dtColumns" class="uk-table" cellspacing="0" width="100%">
+                    </table>
+
+
+                    <div class="uk-grid">
+                        <div class="uk-width-1-1">
+                            <button class="md-btn md-btn-primary" type="button" ng-click="generateReport()" data-uk-button>Generate Report</button>
+                            <!--ng-click="submit(selectedYear,selectedMonth,selectedFileId)"-->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

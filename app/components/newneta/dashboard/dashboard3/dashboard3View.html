@@ -1,0 +1,19 @@
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="md-card" ng-show="notification.select">
+            <div class="col-sm-12" ng-include src="'app/components/newneta/dashboard/dashboard3/dash_select.html'"></div>
+        </div>
+
+        <div class="md-card" ng-show="notification.mainTable">
+            <div class="col-sm-12" ng-include src="'app/components/newneta/dashboard/dashboard3/dash_view_table.html'"></div>
+        </div>
+
+        <div class="md-card" ng-show="notification.viewDetail">
+            <div class="col-sm-12" ng-include src="'app/components/newneta/dashboard/dashboard3/dash_view_detail.html'"></div>
+        </div>
+
+    </div>
+
+</div>
+

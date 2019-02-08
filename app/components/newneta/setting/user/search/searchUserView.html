@@ -1,0 +1,55 @@
+<div id="page_content">
+
+    <div id="top_bar">
+        <div ncy-breadcrumb></div>
+    </div>
+    <br/>
+    <br/>
+
+    <div id="page_content_inner">
+        <h3 class="heading_b uk-margin-bottom">Search User</h3>
+
+        <div class="md-card">
+            <div class="md-card-content" ng-controller="searchUserCtrl as showuser">
+
+                <div class="row">
+                    <table class="uk-table" cellspacing="0" width="100%">
+
+                        <tr>
+                            <th class="uk-text-center">Username</th>
+                            <th class="uk-text-center">First Name</th>
+                            <th class="uk-text-center">Middle Name</th>
+                            <th class="uk-text-center">Last Name</th>
+                            <th class="uk-text-center">Address</th>
+                            <th class="uk-text-center">Phone</th>
+                            <th class="uk-text-center">Email</th>
+                        </tr>
+
+
+                        <tr ng-repeat="item in dataListUser">
+                            <td class="uk-text-center">{{item.username}}</td>
+                            <td class="uk-text-center">{{item.firstname}}</td>
+                            <td class="uk-text-center">{{item.middlename}}</td>
+                            <td class="uk-text-center">{{item.lastname}}</td>
+                            <td class="uk-text-center">{{item.address}}</td>
+
+                            <td class="uk-text-center">
+                                <li ng-repeat="phone in item.phone track by $index">{{phone}}</li>
+                            </td>
+
+                            <td class="uk-text-center">{{item.email}}</td>
+
+                         </tr>
+                        </tfoot>
+                        <tbody></tbody>
+                    </table>
+                   <!-- <table id="entity-grid" ng-show="false" datatable="" dt-options="showuser.dtOptions" dt-columns="showuser.dtColumns" class="uk-table" cellspacing="0" width="100%">
+                    </table>-->
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

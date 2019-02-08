@@ -1,0 +1,376 @@
+<div class="md-card md-card-content">
+    <a href=""><i class="md-icon material-icons uk-text-primary" ng-click="exit_file_queue_detail_info()">clear</i></a>
+</div>
+<br/>
+<div class="md-card-content">
+    <div class="uk-grid uk-grid-width-medium-1-1" data-uk-grid="{gutter:24}">
+        <div>
+            <div class="md-card">
+                <div class="md-card-toolbar">
+                    <div class="md-card-toolbar-actions">
+                        <card-fullscreen-activate></card-fullscreen-activate>
+                        <card-toggle></card-toggle>
+                        <card-close></card-close>
+                    </div>
+                    <card-fullscreen-deactivate></card-fullscreen-deactivate>
+                    <h3 class="md-card-toolbar-heading-text">
+                        Collection Report
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <div class="uk-overflow-container">
+                        <table class="uk-table uk-table-striped">
+                            <thead>
+                            <tr>
+                                <th>filenameInput</th>
+                                <!--<th>stepName</th>-->
+                                <th>checksum</th>
+                                <th>fileSizeLocal</th>
+                                <th>fileSizeRemote</th>
+                                <th>processTimeStart</th>
+                                <th>processTimeEnd</th>
+                                <th>elapsedTime</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in file_queue_detail_info.dataCollectionReport">
+                                <td>{{item.filenameInput}}</td>
+                                <!--<td>{{item.stepName}}</td>-->
+                                <!--<td>{{item.checksum}}</td><i class="material-icons">&#xE888;</i> <i class="material-icons">&#xE876;</i>  -->
+                                <td align="center" ng-if="item.fileSizeLocal == item.fileSizeRemote"><i class="material-icons md-36 uk-text-success">&#xE876;</i></td>
+                                <td align="center" ng-if="item.fileSizeLocal != item.fileSizeRemote"><i class="material-icons md-36 uk-text-danger">&#xE888;</i></td>
+                                <td>{{(item.fileSizeLocal/(1024*1024) | number:2)*1}} MB</td>
+                                <td>{{(item.fileSizeRemote/(1024*1024) | number:2)*1}} MB</td>
+                                <td>{{item.processTimeStart.substring(4,6)+'/'+item.processTimeStart.substring(2,4)+'/'+'20'+item.processTimeStart.substring(0,2)+' '+item.processTimeStart.substring(6,8)+':'+item.processTimeStart.substring(8,10)+':'+item.processTimeStart.substring(10,12)}}</td>
+                                <td>{{item.processTimeEnd.substring(4,6)+'/'+item.processTimeEnd.substring(2,4)+'/'+'20'+item.processTimeEnd.substring(0,2)+' '+item.processTimeEnd.substring(6,8)+':'+item.processTimeEnd.substring(8,10)+':'+item.processTimeEnd.substring(10,12)}}</td>
+                                <td>{{item.elapsedTime}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="md-card-content">
+    <div class="uk-grid uk-grid-width-medium-1-1" data-uk-grid="{gutter:24}">
+        <div>
+            <div class="md-card">
+                <div class="md-card-toolbar">
+                    <div class="md-card-toolbar-actions">
+                        <card-fullscreen-activate></card-fullscreen-activate>
+                        <card-toggle></card-toggle>
+                        <card-close></card-close>
+                    </div>
+                    <card-fullscreen-deactivate></card-fullscreen-deactivate>
+                    <h3 class="md-card-toolbar-heading-text">
+                        Conversion Report
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <div class="uk-overflow-container">
+                        <table class="uk-table uk-table-striped">
+                            <thead>
+                            <tr>
+                                <th>fileName</th>
+                                <!--<th>stepName</th>-->
+                                <th>convertedRecord</th>
+                                <th>validRecord</th>
+                                <th>maxRecordStartTime</th>
+                                <th>minRecordStartTime</th>
+                                <th>maxRecordEndTime</th>
+                                <th>minRecordEndTime</th>
+
+                                <th>processTimeStart</th>
+                                <th>processTimeEnd</th>
+                                <th>elapsedTime</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in file_queue_detail_info.dataConversionReport">
+                                <td>{{item.fileName}}</td>
+                                <!--<td>{{item.stepName}}</td>-->
+                                <td align="center">{{item.convertedRecord}}</td>
+                                <td align="center">{{item.validRecord}}</td>
+                                <td>{{item.maxRecordStartTime.substring(6,8)+'/'+item.maxRecordStartTime.substring(4,6)+'/'+item.maxRecordStartTime.substring(0,4)+' '+item.maxRecordStartTime.substring(8,10)+':'+item.maxRecordStartTime.substring(10,12)+':'+item.maxRecordStartTime.substring(12,14)}}</td>
+                                <td>{{item.minRecordStartTime.substring(6,8)+'/'+item.minRecordStartTime.substring(4,6)+'/'+item.minRecordStartTime.substring(0,4)+' '+item.minRecordStartTime.substring(8,10)+':'+item.minRecordStartTime.substring(10,12)+':'+item.minRecordStartTime.substring(12,14)}}</td>
+                                <td>{{item.maxRecordEndTime.substring(6,8)+'/'+item.maxRecordEndTime.substring(4,6)+'/'+item.maxRecordEndTime.substring(0,4)+' '+item.maxRecordEndTime.substring(8,10)+':'+item.maxRecordEndTime.substring(10,12)+':'+item.maxRecordEndTime.substring(12,14)}}</td>
+                                <td>{{item.minRecordEndTime.substring(6,8)+'/'+item.minRecordEndTime.substring(4,6)+'/'+item.minRecordEndTime.substring(0,4)+' '+item.minRecordEndTime.substring(8,10)+':'+item.minRecordEndTime.substring(10,12)+':'+item.minRecordEndTime.substring(12,14)}}</td>
+
+                                <td>{{item.processTimeStart.substring(4,6)+'/'+item.processTimeStart.substring(2,4)+'/'+'20'+item.processTimeStart.substring(0,2)+' '+item.processTimeStart.substring(6,8)+':'+item.processTimeStart.substring(8,10)+':'+item.processTimeStart.substring(10,12)}}</td>
+                                <td>{{item.processTimeEnd.substring(4,6)+'/'+item.processTimeEnd.substring(2,4)+'/'+'20'+item.processTimeEnd.substring(0,2)+' '+item.processTimeEnd.substring(6,8)+':'+item.processTimeEnd.substring(8,10)+':'+item.processTimeEnd.substring(10,12)}}</td>
+                                <td>{{item.elapsedTime}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="md-card-content">
+    <div class="uk-grid uk-grid-width-medium-1-1" data-uk-grid="{gutter:24}">
+        <div>
+            <div class="md-card">
+                <div class="md-card-toolbar">
+                    <div class="md-card-toolbar-actions">
+                        <card-fullscreen-activate></card-fullscreen-activate>
+                        <card-toggle></card-toggle>
+                        <card-close></card-close>
+                    </div>
+                    <card-fullscreen-deactivate></card-fullscreen-deactivate>
+                    <h3 class="md-card-toolbar-heading-text">
+                        Validation Report
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <div class="uk-overflow-container">
+                        <table class="uk-table uk-table-striped">
+                            <thead>
+                            <tr>
+                                <th>fileName</th>
+                                <th>numOfInput</th>
+                                <th>numOfInvalid</th>
+                                <th>numOfOutput</th>
+                                <th>processTimeStart</th>
+                                <th>processTimeEnd</th>
+                                <th>elapsedTime</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in file_queue_detail_info.dataValidationReport">
+                                <td>{{item.fileName}}</td>
+                                <!--<td>{{item.stepName}}</td>-->
+                                <td align="center">{{item.numOfInput}}</td>
+                                <td align="center">{{item.numOfInvalid}}</td>
+                                <td align="center"> {{item.numOfOutput}}</td>
+                                <td>{{item.processTimeStart.substring(4,6)+'/'+item.processTimeStart.substring(2,4)+'/'+'20'+item.processTimeStart.substring(0,2)+' '+item.processTimeStart.substring(6,8)+':'+item.processTimeStart.substring(8,10)+':'+item.processTimeStart.substring(10,12)}}</td>
+                                <td>{{item.processTimeEnd.substring(4,6)+'/'+item.processTimeEnd.substring(2,4)+'/'+'20'+item.processTimeEnd.substring(0,2)+' '+item.processTimeEnd.substring(6,8)+':'+item.processTimeEnd.substring(8,10)+':'+item.processTimeEnd.substring(10,12)}}</td>
+                                <td>{{item.elapsedTime}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="md-card-content">
+    <div class="uk-grid uk-grid-width-medium-1-1" data-uk-grid="{gutter:24}">
+        <div>
+            <div class="md-card">
+                <div class="md-card-toolbar">
+                    <div class="md-card-toolbar-actions">
+                        <card-fullscreen-activate></card-fullscreen-activate>
+                        <card-toggle></card-toggle>
+                        <card-close></card-close>
+                    </div>
+                    <card-fullscreen-deactivate></card-fullscreen-deactivate>
+                    <h3 class="md-card-toolbar-heading-text">
+                        Duplicate Check Report
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <div class="uk-overflow-container">
+                        <table class="uk-table uk-table-striped">
+                            <thead>
+                            <tr>
+                                <th>fileName</th>
+                                <!--<th>stepName</th>-->
+                                <th>numOfInput</th>
+                                <th>duplicateRecord</th>
+                                <th>nonDuplicateRecord</th>
+                                <th>numOfOutput</th>
+                                <th>processTimeStart</th>
+                                <th>processTimeEnd</th>
+                                <th>elapsedTime</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in file_queue_detail_info.dataDuplicateCheckReport">
+                                <td>{{item.fileName}}</td>
+                                <!--<td>{{item.stepName}}</td>-->
+                                <td align="center">{{item.numOfInput}}</td>
+                                <td align="center">{{item.duplicateRecord}}</td>
+                                <td align="center"> {{item.nonDuplicateRecord}}</td>
+                                <td align="center">{{item.numOfOutput}}</td>
+                                <td>{{item.processTimeStart.substring(4,6)+'/'+item.processTimeStart.substring(2,4)+'/'+'20'+item.processTimeStart.substring(0,2)+' '+item.processTimeStart.substring(6,8)+':'+item.processTimeStart.substring(8,10)+':'+item.processTimeStart.substring(10,12)}}</td>
+                                <td>{{item.processTimeEnd.substring(4,6)+'/'+item.processTimeEnd.substring(2,4)+'/'+'20'+item.processTimeEnd.substring(0,2)+' '+item.processTimeEnd.substring(6,8)+':'+item.processTimeEnd.substring(8,10)+':'+item.processTimeEnd.substring(10,12)}}</td>
+                                <td>{{item.elapsedTime}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="md-card-content">
+    <div class="uk-grid uk-grid-width-medium-1-1" data-uk-grid="{gutter:24}">
+        <div>
+            <div class="md-card">
+                <div class="md-card-toolbar">
+                    <div class="md-card-toolbar-actions">
+                        <card-fullscreen-activate></card-fullscreen-activate>
+                        <card-toggle></card-toggle>
+                        <card-close></card-close>
+                    </div>
+                    <card-fullscreen-deactivate></card-fullscreen-deactivate>
+                    <h3 class="md-card-toolbar-heading-text">
+                        Aggregation Report
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <div class="uk-overflow-container">
+                        <table class="uk-table uk-table-striped">
+                            <thead>
+                            <tr>
+                                <th>fileName</th>
+                                <!--<th>stepName</th>-->
+                                <th>Input Record</th>
+                                <th>Aggregated Record(to be)</th>
+                                <th>Forced Record(to be)</th>
+                                <th>Normal Output Record</th>
+                                <th>processTimeStart</th>
+                                <th>processTimeEnd</th>
+                                <th>elapsedTime</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in file_queue_detail_info.dataDuplicateCheckReport">
+                                <td>{{item.fileName}}</td>
+                                <!--<td>{{item.stepName}}</td>-->
+                                <td align="center">{{item.numOfInput}}</td>
+                                <td align="center">{{item.numOfAgg}}</td>
+                                <td align="center"> {{item.numOfWait}}</td>
+                                <td align="center">{{item.numOfOutput}}</td>
+                                <td>{{item.processTimeStart.substring(4,6)+'/'+item.processTimeStart.substring(2,4)+'/'+'20'+item.processTimeStart.substring(0,2)+' '+item.processTimeStart.substring(6,8)+':'+item.processTimeStart.substring(8,10)+':'+item.processTimeStart.substring(10,12)}}</td>
+                                <td>{{item.processTimeEnd.substring(4,6)+'/'+item.processTimeEnd.substring(2,4)+'/'+'20'+item.processTimeEnd.substring(0,2)+' '+item.processTimeEnd.substring(6,8)+':'+item.processTimeEnd.substring(8,10)+':'+item.processTimeEnd.substring(10,12)}}</td>
+                                <td>{{item.elapsedTime}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="md-card-content">
+    <div class="uk-grid uk-grid-width-medium-1-1" data-uk-grid="{gutter:24}">
+        <div>
+            <div class="md-card">
+                <div class="md-card-toolbar">
+                    <div class="md-card-toolbar-actions">
+                        <card-fullscreen-activate></card-fullscreen-activate>
+                        <card-toggle></card-toggle>
+                        <card-close></card-close>
+                    </div>
+                    <card-fullscreen-deactivate></card-fullscreen-deactivate>
+                    <h3 class="md-card-toolbar-heading-text">
+                        Filtering Report
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <div class="uk-overflow-container">
+                        <table class="uk-table uk-table-striped">
+                            <thead>
+                            <tr>
+                                <th>filenameInput</th>
+                                <th>filenameOutput</th>
+                                <!--<th>stepName</th>-->
+                                <!--<th>fileOutputId</th>
+                                <th>filterId</th>-->
+                                <!--<th>filteringType</th>-->
+                                <th>numOfFiltered</th>
+                                <th>processTimeStart</th>
+                                <th>processTimeEnd</th>
+                                <th>elapsedTime</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in file_queue_detail_info.dataFilteringReport">
+                                <td>{{item.filenameInput}}</td>
+                                <td>{{item.filenameOutput}}</td>
+                                <!--<td>{{item.stepName}}</td>-->
+                                <!--<td>{{item.fileOutputId}}</td>
+                                <td>{{item.filterId}}</td>
+                                <td>{{item.filteringType}}</td>-->
+                                <td align="center">{{item.numOfFiltered}}</td>
+                                <td>{{item.processTimeStart.substring(4,6)+'/'+item.processTimeStart.substring(2,4)+'/'+'20'+item.processTimeStart.substring(0,2)+' '+item.processTimeStart.substring(6,8)+':'+item.processTimeStart.substring(8,10)+':'+item.processTimeStart.substring(10,12)}}</td>
+                                <td>{{item.processTimeEnd.substring(4,6)+'/'+item.processTimeEnd.substring(2,4)+'/'+'20'+item.processTimeEnd.substring(0,2)+' '+item.processTimeEnd.substring(6,8)+':'+item.processTimeEnd.substring(8,10)+':'+item.processTimeEnd.substring(10,12)}}</td>
+                                <td>{{item.elapsedTime}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="md-card-content">
+    <div class="uk-grid uk-grid-width-medium-1-1" data-uk-grid="{gutter:24}">
+        <div>
+            <div class="md-card">
+                <div class="md-card-toolbar">
+                    <div class="md-card-toolbar-actions">
+                        <card-fullscreen-activate></card-fullscreen-activate>
+                        <card-toggle></card-toggle>
+                        <card-close></card-close>
+                    </div>
+                    <card-fullscreen-deactivate></card-fullscreen-deactivate>
+                    <h3 class="md-card-toolbar-heading-text">
+                        Dispatch Report
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <div class="uk-overflow-container">
+                        <table class="uk-table uk-table-striped">
+                            <thead>
+                            <tr>
+                                <th>filenameInput</th>
+                                <th>filenameOutput</th>
+                                <!--<th>stepName</th>-->
+                                <th>fileChecksum</th>
+                                <th>fileSizeLocal</th>
+                                <th>fileSizeRemote</th>
+
+                                <th>processTimeStart</th>
+                                <th>processTimeEnd</th>
+                                <th>elapsedTime</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in file_queue_detail_info.dataDispatchReport">
+                                <td>{{item.filenameInput}}</td>
+                                <td>{{item.filenameOutput}}</td>
+                                <!--<td>{{item.stepName}}</td>-->
+                                <!--<td>{{item.fileChecksum}}</td>-->
+                                <td align="center" ng-if="item.fileSizeLocal == item.fileSizeRemote"><i class="material-icons md-36 uk-text-success">&#xE876;</i></td>
+                                <td align="center" ng-if="item.fileSizeLocal != item.fileSizeRemote"><i class="material-icons md-36 uk-text-danger">&#xE888;</i></td>
+                                <td>{{(item.fileSizeLocal/(1024*1024) | number:2)*1}} MB</td>
+                                <td>{{(item.fileSizeRemote/(1024*1024) | number:2)*1}} MB</td>
+                                <td>{{item.processTimeStart.substring(4,6)+'/'+item.processTimeStart.substring(2,4)+'/'+'20'+item.processTimeStart.substring(0,2)+' '+item.processTimeStart.substring(6,8)+':'+item.processTimeStart.substring(8,10)+':'+item.processTimeStart.substring(10,12)}}</td>
+                                <td>{{item.processTimeEnd.substring(4,6)+'/'+item.processTimeEnd.substring(2,4)+'/'+'20'+item.processTimeEnd.substring(0,2)+' '+item.processTimeEnd.substring(6,8)+':'+item.processTimeEnd.substring(8,10)+':'+item.processTimeEnd.substring(10,12)}}</td>
+                                <td>{{item.elapsedTime}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>

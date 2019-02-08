@@ -1,0 +1,27 @@
+<div class="md-card-content">
+    <div class="uk-alert uk-alert-warning" data-uk-alert ng-show="notification.errorMsg">
+        <a href="#" class="uk-alert-close uk-close"></a>
+        Mohon isi semua pilihan!
+    </div>
+    <form id="form_validation" class="uk-form-stacked">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-3">
+                <span class="uk-form-help-block">Tahun</span>
+                <input type="text" config="selectize_a_config" options="listYears" ng-model="selectedYear" name="selectedYear" selectize />
+            </div>
+            <div class="uk-width-medium-1-3">
+                <span class="uk-form-help-block">Bulan</span>
+                <input type="text" config="selectize_a_config" options="listMonth" ng-model="selectedMonth" name="selectedMonth" selectize />
+            </div>
+            <div class="uk-width-medium-1-3">
+                <span class="uk-form-help-block">File ID</span>
+                <input type="text" config="selectize_a_config" options="listFileId" ng-model="selectedFileId" name="selectedFileId" selectize />
+            </div>
+        </div>
+        <div class="uk-grid">
+            <div class="uk-width-1-1">
+                <button class="md-btn md-btn-primary" type="button" ng-click="submit(selectedYear,selectedMonth,selectedFileId)" data-uk-button>Search</button>
+            </div>
+        </div>
+    </form>
+</div>

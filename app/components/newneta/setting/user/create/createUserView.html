@@ -1,0 +1,232 @@
+<div id="page_content">
+
+    <div id="top_bar">
+        <div ncy-breadcrumb></div>
+    </div>
+    <br/>
+    <br/>
+    <div id="page_content_inner">
+        <h3 class="heading_b uk-margin-bottom">Create User</h3>
+
+        <div class="md-card">
+            <div class="md-card-content large-padding">
+                <form id="form_create_user" class="uk-form-stacked">
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-2">
+                            <div class="parsley-row">
+                                <label for="username">Username<span class="req">*</span></label>
+                                <input id="username" type="text" name="username" required class="md-input" md-input ng-model="user.username" />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="parsley-row">
+                                <label for="user_email">Email<span class="req">*</span></label>
+                                <input id="user_email" type="email" name="user_email" data-parsley-trigger="change" required  class="md-input" md-input ng-model="user.email" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-2">
+
+                            <div class="parsley-row">
+
+                                <label for="password">Password<span class="req">*</span></label>
+                                <input id="password" type="password" name="password" required class="md-input" md-input ng-model="user.password" ng-blur="StartValidation()" />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="parsley-row">
+                                <div class="uk-input-group">
+                                    <label for="re_password">Re-type Password<span class="req">*</span></label>
+                                    <input id="re_password" type="password" name="re_password" data-parsley-trigger="change" required  class="md-input" md-input ng-blur="PassValidation()" ng-model="user.re_password" />
+                                    <span class="uk-input-group-addon">
+                                        <i class="material-icons md-36 uk-text-danger" ng-show="notification.password_validation_wrong">&#xE000;</i>
+                                        <i class="material-icons md-36 uk-text-primary" ng-show="notification.password_validation_right">&#xE86C;</i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-2">
+                            <label for="firstname">First Name<span class="req">*</span></label>
+                            <input id="firstname" type="text" name="firstname" required class="md-input" md-input ng-model="user.firstname" />
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="uk-input-group">
+                                <label>Address<span class="req">*</span></label>
+                                <input id="address" type="text" class="md-input" md-input ng-model="address" />
+                                <span class="uk-input-group-addon">
+                                    <a><i class="material-icons md-36 uk-text-primary" data-uk-tooltip title="Click to Add Address" ng-click="AddData('address',address)">&#xE3BA;</i></a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-2">
+                            <label>Middle Name<span class="req"></span></label>
+                            <input id="middlename" type="text" name="middlename" class="md-input" md-input ng-model="user.middlename" />
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="uk-input-group">
+                                <label>Telephone<span class="req">*</span></label>
+                                <input id="phone" type="text" class="md-input" md-input ng-model="phone" />
+                                <span class="uk-input-group-addon">
+                                    <a><i class="material-icons md-36 uk-text-primary" data-uk-tooltip title="Click to Add Telephone" ng-click="AddData('phone',phone)">&#xE3BA;</i></a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-2">
+                            <label for="lastname">Last Name<span class="req">*</span></label>
+                            <input id="lastname" type="text" name="lastname" required class="md-input" md-input ng-model="user.lastname" />
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="uk-input-group">
+                                <label>Mobile Phone<span class="req">*</span></label>
+                                <input id="mobile_phone" type="text" class="md-input" md-input ng-model="mobile_phone" />
+                                <span class="uk-input-group-addon">
+                                    <a><i class="material-icons md-36 uk-text-primary" data-uk-tooltip title="Click to Add Mobile Phone" ng-click="AddData('mobile_phone',mobile_phone)">&#xE3BA;</i></a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-2">
+                            <div class="parsley-row">
+                                <label class="uk-form-label">Credential Option</label>
+                                    <span class="icheck-inline">
+                                        <input type="checkbox" id="val_check_enable" icheck ng-model="user.enable" />
+                                        <label for="val_check_enable" class="inline-label">Enable</label>
+                                    </span>
+                                    <span class="icheck-inline">
+                                        <input type="checkbox" id="val_check_expired" icheck ng-model="user.expired"  />
+                                        <label for="val_check_expired" class="inline-label">Expired</label>
+                                    </span>
+                                    <span class="icheck-inline">
+                                        <input type="checkbox" id="val_check_credentialExpired" icheck ng-model="user.credentialExpired" />
+                                        <label for="val_check_credentialExpired" class="inline-label">Credential Expired</label>
+                                    </span>
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="uk-input-group">
+                                <label>Fax<span class="req">*</span></label>
+                                <input id="fax" type="text" class="md-input" md-input ng-model="fax" />
+                                <span class="uk-input-group-addon">
+                                    <a><i class="material-icons md-36 uk-text-primary" data-uk-tooltip title="Click to Add Fax" ng-click="AddData('fax',fax)">&#xE3BA;</i></a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-2">
+                            <label for="group_access">Select Group Access<span class="req">*</span></label>
+                            <input id="group_access" required type="text" config="selectize_a_config" options="listRolesMenu" ng-model="user.selectedMenuRoles" name="group_access" selectize />
+                        </div>
+                        <div class="uk-width-medium-1-2"></div>
+                    </div>
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-2">
+                            <div class="parsley-row uk-margin-top">
+                                <label for="start_date">Start Date<span class="req">*</span></label>
+                                <input type="text" name="start_date" ng-change="changeDate('start',startdate)" id="start_date" required class="md-input" data-uk-datepicker="{format:'YYYYMMDD'}" md-input ng-model="startdate" />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="parsley-row uk-margin-top">
+                                <label for="end_date">End Date<span class="req">*</span></label>
+                                <input type="text" name="end_date" ng-change="changeDate('end',enddate)" id="end_date" required class="md-input"  data-uk-datepicker="{format:'YYYYMMDD'}" md-input ng-model="enddate" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-small-1-1" ng-if="user.address.length > 0">
+                            <table class="uk-table uk-table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="uk-width-1-10 uk-text-center">Address List</th>
+                                    <th class="uk-width-1-10 uk-text-center"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in user.address">
+                                    <td class="uk-text-center">{{item}}</td>
+                                    <td class="uk-text-center">
+                                        <a><i class="material-icons md-24 uk-text-primary" ng-click="RemoveData('address',item)">&#xE92B;</i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-small-1-3">
+                            <table class="uk-table uk-table-striped" ng-if="user.phone.length > 0">
+                                <thead>
+                                <tr>
+                                    <th class="uk-width-1-10 uk-text-center">Telephone</th>
+                                    <th class="uk-width-1-10 uk-text-center"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in user.phone">
+                                    <td class="uk-text-center">{{item}}</td>
+                                    <td class="uk-text-center">
+                                        <a><i class="material-icons md-24 uk-text-primary" ng-click="RemoveData('phone',item)">&#xE92B;</i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="uk-width-small-1-3">
+                            <table class="uk-table uk-table-striped" ng-if="user.mobilephone.length > 0">
+                                <thead>
+                                <tr>
+                                    <th class="uk-width-1-10 uk-text-center">Mobile Phone</th>
+                                    <th class="uk-width-1-10 uk-text-center"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in user.mobilephone">
+                                    <td class="uk-text-center">{{item}}</td>
+                                    <td class="uk-text-center">
+                                        <a><i class="material-icons md-24 uk-text-primary" ng-click="RemoveData('mobile_phone',item)">&#xE92B;</i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="uk-width-small-1-3" ng-if="user.fax.length > 0">
+                            <table class="uk-table uk-table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="uk-width-1-10 uk-text-center">Fax</th>
+                                    <th class="uk-width-1-10 uk-text-center"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in user.fax">
+                                    <td class="uk-text-center">{{item}}</td>
+                                    <td class="uk-text-center">
+                                        <a><i class="material-icons md-24 uk-text-primary" ng-click="RemoveData('fax',item)">&#xE92B;</i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="uk-grid">
+                        <div class="uk-width-1-1">
+                            <button type="submit" class="md-btn md-btn-primary" ng-click="SubmitData()">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>

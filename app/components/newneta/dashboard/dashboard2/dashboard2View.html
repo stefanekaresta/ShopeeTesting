@@ -1,0 +1,182 @@
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="md-card" ng-show="notification.select">
+            <div class="col-sm-12" ng-include src="'app/components/newneta/dashboard/dashboard2/dash_select.html'"></div>
+        </div>
+
+        <!--<div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1">
+                <div class="md-card">
+                    <div class="md-card-content">
+                        <h4 class="heading_c uk-margin-bottom">Spline Chart</h4>
+                        <div id="c3_chart_spline" class="c3chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1">
+                <div class="md-card">
+                    <div class="md-card-content">
+                        <h4 class="heading_c uk-margin-bottom">Spline Chart Test</h4>
+                        <div id="c3_chart_spline_test" class="c3chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <!--<div class="md-card" ng-show="notification.viewDetail">
+            <div class="col-sm-12" ng-include src="'app/components/newneta/dashboard/dashboard2/dash_view_detail_chart.html'"></div>
+        </div>-->
+
+        <div class="md-card" ng-show="notification.mainTable">
+            <div class="col-sm-12" ng-include src="'app/components/newneta/dashboard/dashboard2/dash_view_table.html'"></div>
+        </div>
+
+
+        <!--<div class="md-card" ng-show="notification.viewDetail">
+            <div class="col-sm-12" ng-include src="'app/components/newneta/dashboard/dashboard2/dash_view_detail_input.html'"></div>
+        </div>-->
+
+        <div class="md-card" ng-show="notification.viewDetail">
+            <div class="col-sm-12" ng-include src="'app/components/newneta/dashboard/dashboard2/dash_view_detail_output.html'"></div>
+        </div>
+
+        <!--<div class="md-card">
+            <div class="md-card-content">
+                &lt;!&ndash;<h3 class="heading_a">Pilih Hari</h3>&ndash;&gt;
+                <div class="uk-alert uk-alert-warning" data-uk-alert ng-show="notification.errorMsg">
+                    <a href="#" class="uk-alert-close uk-close"></a>
+                    Mohon isi semua pilihan!
+                </div>
+                <form id="form_validation" class="uk-form-stacked">
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-4">
+                            <span class="uk-form-help-block">Tahun</span>
+                            <input type="text" config="selectize_a_config" options="listYears" ng-model="selectedYear" name="selectedYear" selectize />
+                        </div>
+                        <div class="uk-width-medium-1-4">
+                            <span class="uk-form-help-block">Bulan</span>
+                            <input type="text" config="selectize_a_config" options="listMonth" ng-model="selectedMonth" name="selectedMonth" selectize />
+                        </div>
+                        <div class="uk-width-medium-1-4">
+                            <span class="uk-form-help-block">File ID</span>
+                            <input type="text" config="selectize_a_config" options="listFileId" ng-model="selectedFileId" name="selectedFileId" selectize />
+                        </div>
+                        <div class="uk-width-medium-1-4">
+                            <span class="uk-form-help-block">Target</span>
+                            <input type="text" config="selectize_a_config" options="listDataName" ng-model="selectedTarget" name="selectedTarget" selectize />
+                        </div>
+                    </div>
+                    <div class="uk-grid">
+                        <div class="uk-width-1-1">
+                            <button class="md-btn md-btn-primary" type="button" ng-click="submit(selectedYear,selectedMonth,selectedFileId,selectedTarget)" data-uk-button>Search</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>-->
+
+        <!--<div class="md-card">
+            <div class="md-card-content">
+                <div class="uk-grid" data-uk-grid-margin data-uk-grid-match="{target:'.md-card-content'}">
+                    <div class="uk-width-medium-1-1">
+                        <div class="uk-overflow-container">
+                            <table class="uk-table">
+                                <thead>
+                                <tr>
+                                    <th class="uk-text-nowrap"><b><strong>Tanggal</strong></b></th>
+                                    <th class="uk-text-nowrap" ng-repeat="hours in listHours">
+                                        <b><strong>{{hours}}</strong></b>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="uk-table-middle" ng-repeat="days in listDays">
+                                    <td class="uk-width-3-10 uk-text-nowrap"><span class="uk-badge uk-badge-notification uk-badge-success">{{days}}</span></td>
+                                    <td class="uk-width-3-10 uk-text-nowrap" ng-repeat="hours in listHours">
+                                        <span class="uk-badge uk-badge-notification" ng-click="showDetail(test_data[days][hours])"
+                                              data-uk-modal="{target:'#modal_full'}">{{test_data[days][hours].count}}</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <!--<div class="uk-modal uk-modal-card-fullscreen" id="modal_full">
+            <div class="uk-modal-dialog uk-modal-dialog-blank">
+                <div class="md-card uk-height-viewport">
+                    <div class="md-card-toolbar">
+                        <div class="md-card-toolbar-actions">
+                            <div class="md-card-dropdown" data-uk-dropdown="{pos:'bottom-right'}">
+                                <i class="md-icon material-icons">&#xE5D4;</i>
+                                <div class="uk-dropdown">
+                                    <ul class="uk-nav">
+                                        <li><a href="#">Action 1</a></li>
+                                        <li><a href="#">Action 2</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="md-icon material-icons uk-modal-close">&#xE5C4;</span>
+                        <h3 class="md-card-toolbar-heading-text">
+                            Detail Data
+                        </h3>
+                    </div>
+                    <div class="md-card-content">
+                        <div class="uk-form-row">
+                            <div class="uk-grid" data-uk-grid-margin>
+                                <div class="uk-width-large-1-4 uk-width-medium-1-2">
+                                    <div class="uk-input-group">
+                                        <label>Date</label>
+                                        <input type="text" class="md-input label-fixed" disabled ng-model="selectedData.dateHour" />
+                                    </div>
+                                </div>
+                                <div class="uk-width-large-1-4 uk-width-medium-1-2">
+                                    <div class="uk-input-group">
+                                        <label>File ID</label>
+                                        <input type="text" class="md-input label-fixed" disabled ng-model="selectedData.fileId" />
+                                    </div>
+                                </div>
+                                <div class="uk-width-large-1-4 uk-width-medium-1-2">
+                                    <div class="uk-input-group">
+                                        <label>File Output ID</label>
+                                        <input type="text" class="md-input label-fixed" disabled ng-model="selectedData.fileOutputId" />
+                                    </div>
+                                </div>
+                                <div class="uk-width-large-1-4 uk-width-medium-1-2">
+                                    <div class="uk-input-group">
+                                        <label>Data Target Name</label>
+                                        <input type="text" class="md-input label-fixed" disabled ng-model="selectedData.dataTargetName" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="uk-form-row">
+                            <h2>List Data Output</h2>
+                            <div class="uk-width-large-1-1">
+                                <ul class="md-list">
+                                    <li ng-repeat="output in selectedData.outputFiles">
+                                        <div class="md-list-content">
+                                            <span class="uk-text-small uk-text-muted">{{output}}</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</div>

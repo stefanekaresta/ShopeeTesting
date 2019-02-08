@@ -1,0 +1,31 @@
+<div id="page_content">
+    <div id="top_bar">
+        <div ncy-breadcrumb></div>
+    </div>
+    <div id="page_content_inner">
+        <div class="md-card uk-margin-medium-bottom">
+            <div class="md-card-content" ng-controller="detailInCtrl as vm">
+                <!--<div class="row">
+                    <div class="uk-width-medium-1-6">
+                        <button class="md-btn" type="button" ng-click="vm.testService()" data-uk-button>Default</button>
+                    </div>
+                </div>
+                -->
+                <div class="row">
+                    <table id="entity-grid" datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="uk-table" cellspacing="0" width="100%">
+                        <tfoot>
+                        <tr>
+                            <th>Record ID</th>
+                            <th>Name</th>
+                            <th>Field Type</th>
+                            <th>File Type ID</th>
+                        </tr>
+                        </tfoot>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,14 @@
+extends: ../.eslintrc.yml
+plugins:
+  - jasmine
+env:
+  jasmine: true
+globals:
+  assert: true
+  expect: true
+  sinon: true
+rules:
+  jasmine/no-suite-callback-args: 2
+  jasmine/no-suite-dupes:
+    - 2
+    - branch
